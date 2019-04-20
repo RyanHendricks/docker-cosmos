@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  gaiadnode:
+    container_name: cosmos
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment: 
+      - MONIKER=NodeName
+      - CHAIN_ID=gaia-13003
+      # - GENESIS_URL= comment out for default 13003 (give url for cosmoshub-1)
+    ports:
+      - "26656:26656"
+      - "26657:26657"
+      - "26658:26658"
+    volumes:
+      - ./data/config:/.gaiad/config
+      - ./data/keys:/.gaiacli/keys
+

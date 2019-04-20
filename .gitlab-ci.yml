@@ -1,0 +1,20 @@
+services:
+  - docker:dind
+
+variables:
+  VERSION: "0.34.0"
+  IMAGE_TAG: $CI_REGISTRY_IMAGE
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+build:
+  stage: build
+  image: docker:stable
+  script:
+    - docker build -t $IMAGE_TAG:${VERSION} .
+    - docker build -t $IMAGE_TAG:latest .
+    # - docker build --build-arg VERSION="${VERSION}" -t $IMAGE_TAG:${VERSION}-$CI_COMMIT_TAG .
+    - docker push $IMAGE_TAG:${VERSION}
+    - docker push $IMAGE_TAG:latest
+
