@@ -28,12 +28,17 @@ ENV GAIAD_HOME=/.gaiad
 # Install ca-certificates
 RUN apk add --update ca-certificates
 
-WORKDIR /tmp
+RUN mkdir -p /tmp/bin
+
+WORKDIR /tmp/bin
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/bin/gaiad /tmp
-COPY --from=build-env /go/bin/gaiacli /tmp
+COPY --from=build-env /go/bin/gaiad /tmp/bin
+COPY --from=build-env /go/bin/gaiacli /tmp/bin
 RUN install -m 0755 -o root -g root -t /usr/local/bin `find . -maxdepth 1 -executable -type f`
+
+RUN rm -r /tmp/bin
+
 
 WORKDIR $GAIAD_HOME
 
