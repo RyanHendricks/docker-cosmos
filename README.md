@@ -1,3 +1,7 @@
+[![](https://images.microbadger.com/badges/image/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
+[![](https://images.microbadger.com/badges/version/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
+![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/ryanhendricks/docker-cosmos.svg?style=popout)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ryanhendricks/docker-cosmos.svg)
 # Docker-Cosmos
 
 ## Prerequisites
