@@ -23,7 +23,7 @@ RUN make tools && \
 # Final image
 FROM alpine:edge
 
-ENV GAIAD_HOME=/.gaiad
+# ENV GAIAD_HOME=/.gaiad
 
 # Install ca-certificates
 RUN apk add --update ca-certificates
@@ -39,8 +39,7 @@ RUN install -m 0755 -o root -g root -t /usr/local/bin `find . -maxdepth 1 -execu
 
 RUN rm -r /tmp/bin
 
-
-WORKDIR $GAIAD_HOME
+# WORKDIR $GAIAD_HOME
 
 EXPOSE 26656 26657 26658
 EXPOSE 1317
