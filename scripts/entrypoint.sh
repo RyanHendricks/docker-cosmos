@@ -5,10 +5,8 @@
 set -e
 echo "setting up initial configurations"
 
-GAIAD_HOME=${GAIAD_HOME:-/.gaiad}
-mkdir -p $GAIAD_HOME
+gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-2}
 
-gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13003}
 cd $GAIAD_HOME/config
 
 rm genesis.json
@@ -17,7 +15,7 @@ rm config.toml
 if [ ! -z "$GENESIS_URL" ]; then
     wget $GENESIS_URL
 else
-    wget https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json
+    wget https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
 fi
 
 cat > config.toml << EOF
@@ -118,7 +116,7 @@ laddr = "tcp://0.0.0.0:26656"
 external_address = ""
 
 # Comma separated list of seed nodes to connect to
-seeds = "3e16af0cead27979e1fc3dac57d03df3c7a77acc@3.87.179.235:26656,ba3bacc714817218562f743178228f23678b2873@public-seed-node.cosmoshub.certus.one:26656,2626942148fd39830cb7a3acccb235fab0332d86@173.212.199.36:26656,3028c6ee9be21f0d34be3e97a59b093e15ec0658@91.205.173.168:26656,89e4b72625c0a13d6f62e3cd9d40bfc444cbfa77@34.65.6.52:26656"
+seeds = "b1c618b89f8f996b7d07e1df710a33e4e4e186c5@stakehedge.com:26656"
 
 # Comma separated list of nodes to keep persistent connections to
 persistent_peers=""

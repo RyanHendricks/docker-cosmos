@@ -2,15 +2,15 @@ version: '3'
 
 services:
   docker-cosmos:
-    container_name: ivy-mike
+    container_name: nonamenode
     build:
       context: .
       dockerfile: Dockerfile
     environment: 
       - MONIKER=NodeName
-      - CHAIN_ID=gaia-13003
+      - CHAIN_ID=cosmoshub-2
       # - GAIAD_HOME=/.gaiad
-      # - GENESIS_URL= comment out for default 13003 (give url for cosmoshub-2)
+      # - GENESIS_URL=  leave commented out for default cosmoshub-2 (or give url of your choice)
     ports:
       - "26656:26656"
       - "26657:26657"
