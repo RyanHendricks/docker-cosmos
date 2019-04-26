@@ -4,25 +4,26 @@
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ryanhendricks/docker-cosmos.svg)
 # Docker-Cosmos
 
+Run a Dockerized full node running cosmos-sdk v0.34.3 on cosmoshub-2
+
 ## Prerequisites
 
   - Docker
   - Docker-Compose
 
-## Getting Started
-
+## Configuration
 
 ### Environment Variables
 
-You will need to set the following env variables either in a docker-compose file or in the docker run command if running the container directly. Not to worry though,
+You can set the following env variables either in a docker-compose file or in the docker run command if running the container directly. If left unchanged they will default to the values listed below.
 - MONIKER
   - defaults to "nonamenode"
 - GAIAD_HOME
   - defaults to /.gaiad
 - CHAIN_ID
-  - defaults to gaia-13003
+  - defaults to cosmoshub-2
 - GENESIS_URL
-  - defaults to gaia-13003 github genesis file url
+  - defaults to cosmoshub2 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
 
 You can modify the config within the /scripts/entrypoint.sh file if you are cloning and building the image yourself. The config.toml is created dynamically when starting the container based on the ENV variables supplied above.
 
@@ -32,9 +33,9 @@ You can modify the config within the /scripts/entrypoint.sh file if you are clon
 docker-compose up -d
 ```
 
-You're now running a cosmos node on gaia-13003 testnet.
+You're now running a cosmos node on cosmoshub-2 (mainnet).
 
-Check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status). 
+Check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status).
 
 You probably should not run a validator with this setup.
 
@@ -54,6 +55,6 @@ curl -X GET \
 Alternatively,
 
 ```bash
+# This will keep the rest-server running after term disconnect.
 nohup gaiacli rest-server --trust-node --cors * --home $GAIAD_HOME --laddr tcp://0.0.0.0:1317 > rest_log.txt &
 ```
-
