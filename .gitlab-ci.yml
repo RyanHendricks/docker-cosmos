@@ -2,10 +2,8 @@ services:
   - docker:dind
 
 variables:
-  VERSION: "0.34.1"
-  CI_PROJECT_NAME: $CI_PROJECT_NAME
+  VERSION: "v0.34.3"
   IMAGE_TAG: $CI_REGISTRY_IMAGE
-  CI_PROJECT_URL: $CI_PROJECT_URL
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
@@ -19,10 +17,3 @@ build:
     # - docker build --build-arg VERSION="${VERSION}" -t $IMAGE_TAG:${VERSION}-$CI_COMMIT_TAG .
     - docker push $IMAGE_TAG:${VERSION}
     - docker push $IMAGE_TAG:latest
-
-after_script:
-  - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
-  - docker -t $IMAGE_TAG:${VERSION} ${DOCKER_LOGIN}/${IMAGE_TAG}:${VERSION}
-  - docker -t $IMAGE_TAG:latest ${DOCKER_LOGIN}/${IMAGE_TAG}:latest
-  - docker push ${DOCKER_LOGIN}/${IMAGE_TAG}:${VERSION}
-  - docker push ${DOCKER_LOGIN}/${IMAGE_TAG}:latest
