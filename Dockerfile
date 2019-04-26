@@ -3,7 +3,7 @@ FROM golang:alpine AS build-env
 # Modified from original cosmos-sdk Dockerfile
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
-ENV VERSION=v0.34.1
+ENV VERSION=v0.34.3
 
 # Set up dependencies
 RUN apk add --no-cache $PACKAGES
@@ -23,7 +23,7 @@ RUN make tools && \
 # Final image
 FROM alpine:edge
 
-# ENV GAIAD_HOME=/.gaiad
+ENV GAIAD_HOME=/.gaiad
 
 # Install ca-certificates
 RUN apk add --update ca-certificates
