@@ -3,6 +3,7 @@ jobs:
   build:
     environment:
       IMAGE_NAME: ryanhendricks/docker-cosmos
+      VERSION: v0.34.3
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -12,10 +13,13 @@ jobs:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
       - run:
+          name: tag image
+          command: docker tag $IMAGE_NAME:latest $IMAGE_NAME:$VERSION
+      - run:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:latest && docker push $IMAGE_NAME:$VERSION
 workflows:
   version: 2
   build-master:
