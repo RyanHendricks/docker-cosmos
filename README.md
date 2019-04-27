@@ -1,21 +1,29 @@
-[![](https://images.microbadger.com/badges/image/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
-[![](https://images.microbadger.com/badges/version/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
-![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/ryanhendricks/docker-cosmos.svg?style=popout)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ryanhendricks/docker-cosmos.svg)
 # Docker-Cosmos
 
 Run a Dockerized full node running cosmos-sdk v0.34.3 on cosmoshub-2
 
+---
+
+![CircleCI (all branches)](https://img.shields.io/circleci/project/github/RyanHendricks/docker-cosmos.svg?label=circleci%20&logo=circleci&logoColor=white)
+![CircleCI (all branches)](https://img.shields.io/circleci/project/github/RyanHendricks/docker-cosmos.svg?label=docker%20build&logo=docker&logoColor=white)
+
+[![version](https://images.microbadger.com/badges/version/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
+[![layers](https://images.microbadger.com/badges/image/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
+[![Docker Pulls](https://img.shields.io/docker/pulls/ryanhendricks/docker-cosmos.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/ryanhendricks/docker-cosmos)
+
+---
+
 ## Prerequisites
 
-  - Docker
-  - Docker-Compose
+- Docker
+- Docker-Compose
 
 ## Configuration
 
 ### Environment Variables
 
 You can set the following env variables either in a docker-compose file or in the docker run command if running the container directly. If left unchanged they will default to the values listed below.
+
 - MONIKER
   - defaults to "nonamenode"
 - GAIAD_HOME
@@ -30,6 +38,8 @@ You can modify the config within the /scripts/entrypoint.sh file if you are clon
 ### Running the Node
 
 ```sh
+docker  run --rm -it -P docker-cosmos_docker-cosmos:latest
+
 docker-compose up -d
 ```
 
@@ -58,3 +68,6 @@ Alternatively,
 # This will keep the rest-server running after term disconnect.
 nohup gaiacli rest-server --trust-node --cors * --home $GAIAD_HOME --laddr tcp://0.0.0.0:1317 > rest_log.txt &
 ```
+
+
+[![Keybase PGP](https://img.shields.io/keybase/pgp/ryanhendricks.svg?label=keybase&logo=keybase&logoColor=white)](https://keybase.io/ryanhendricks)

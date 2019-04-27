@@ -2,7 +2,7 @@ version: '3'
 
 services:
   docker-cosmos:
-    container_name: nonamenode
+    container_name: cosmos_node
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,8 @@ services:
       - "26657:26657"
       - "26658:26658"
       - "1317:1317" # for rest-server
-    volumes:
-      - ./data/config:/.gaiad/config
-      - ./data/keys:/.gaiacli/keys
-
+#     volumes:
+#       - /node_data/data/config:/.gaiad/config
+#       - /node_data/data/keys:/.gaiacli/keys
+# volumes:
+#   node_data:

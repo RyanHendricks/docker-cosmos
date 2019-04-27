@@ -5,18 +5,22 @@
 set -e
 echo "setting up initial configurations"
 
-gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-2}
+if [ ! -d "$GAIAD_HOME/data" ];
+then
 
-cd $GAIAD_HOME/config
+  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-2}
 
-rm genesis.json
-rm config.toml
+  cd $GAIAD_HOME/config
 
-if [ ! -z "$GENESIS_URL" ]; then
-    wget $GENESIS_URL
-else
-    wget https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
-fi
+  rm genesis.json
+  rm config.toml
+
+  if [ ! -z "$GENESIS_URL" ]; then
+      wget $GENESIS_URL
+  else
+      wget https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
+  fi
+
 
 cat > config.toml << EOF
 # This is a TOML config file.
@@ -251,7 +255,9 @@ max_open_connections = 3
 
 # Instrumentation namespace
 namespace = "tendermint"
-
 EOF
+
+
+fi
 
 gaiad start --home=$GAIAD_HOME
