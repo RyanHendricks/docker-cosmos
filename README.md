@@ -1,6 +1,6 @@
 # Docker-Cosmos
 
-Run a Dockerized full node running cosmos-sdk v0.34.3 on cosmoshub-2
+Run a Dockerized full node on cosmoshub-2
 
 ---
 
@@ -39,7 +39,9 @@ You can modify the config within the /scripts/entrypoint.sh file if you are clon
 ### Running the Node
 
 ```sh
-docker  run --rm -it -P docker-cosmos_docker-cosmos:latest
+docker  run --rm -it -P registry.gitlab.com/appealtoheavenllc/docker-cosmos:latest
+
+# or
 
 docker-compose up -d
 ```
