@@ -11,6 +11,7 @@ Run a Dockerized full node running cosmos-sdk v0.34.3 on cosmoshub-2
 [![layers](https://images.microbadger.com/badges/image/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ryanhendricks/docker-cosmos.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/ryanhendricks/docker-cosmos)
 
+![https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B) ![https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fblocks%2Flast](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)
 ---
 
 ## Prerequisites
