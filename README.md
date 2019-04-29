@@ -4,20 +4,25 @@ Run a Dockerized full node on cosmoshub-2
 
 ---
 
-![CircleCI (all branches)](https://img.shields.io/circleci/project/github/RyanHendricks/docker-cosmos.svg?label=circleci%20&logo=circleci&logoColor=white)
-![CircleCI (all branches)](https://img.shields.io/circleci/project/github/RyanHendricks/docker-cosmos.svg?label=docker%20build&logo=docker&logoColor=white)
-
-[![version](https://images.microbadger.com/badges/version/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
-[![layers](https://images.microbadger.com/badges/image/ryanhendricks/docker-cosmos.svg)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
+[![CircleCI (all branches)](https://img.shields.io/circleci/project/github/RyanHendricks/docker-cosmos.svg?label=build&logo=circleci&logoColor=white)](https://hub.docker.com/r/ryanhendricks/docker-cosmos)
+[![MicroBadger Layers (latest)](https://img.shields.io/microbadger/layers/ryanhendricks/docker-cosmos/latest.svg?logo=docker&label=image%2Blayers&logoColor=white)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
+[![MicroBadger Image-Size (latest)](https://img.shields.io/microbadger/image-size/ryanhendricks/docker-cosmos:latest.svg?logo=docker&logoColor=white)](https://microbadger.com/images/ryanhendricks/docker-cosmos)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ryanhendricks/docker-cosmos.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/ryanhendricks/docker-cosmos)
 
-![https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B) ![https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fblocks%2Flast](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)
 ---
 
 ## Prerequisites
 
 - Docker
-- Docker-Compose
+- Docker-Compose (optional)
+
+## Quick Start
+
+The image can be run without any configuration
+
+```bash
+docker  run --rm -it -P ryanhendricks/docker-cosmos:latest
+```
 
 ## Configuration
 
@@ -34,12 +39,14 @@ You can set the following env variables either in a docker-compose file or in th
 - GENESIS_URL
   - defaults to cosmoshub2 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
 
+
+### Config.toml Parameters
 You can modify the config within the /scripts/entrypoint.sh file if you are cloning and building the image yourself. The config.toml is created dynamically when starting the container based on the ENV variables supplied above.
 
 ### Running the Node
 
 ```sh
-docker  run --rm -it -P registry.gitlab.com/appealtoheavenllc/docker-cosmos:latest
+docker  run --rm -it -P ryanhendricks/docker-cosmos:latest
 
 # or
 
@@ -47,6 +54,10 @@ docker-compose up -d
 ```
 
 You're now running a cosmos node on cosmoshub-2 (mainnet).
+
+
+[![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B)
+[![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)
 
 Check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status).
 
