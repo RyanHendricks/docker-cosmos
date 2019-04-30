@@ -21,7 +21,10 @@ Run a Dockerized full node on cosmoshub-2
 The image can be run without any configuration and defaults to mainnet
 
 ```bash
-docker  run --rm -it -P ryanhendricks/docker-cosmos:latest
+docker  run --rm -it -P --env SEEDS='b1c618b89f8f996b7d07e1df710a33e4e4e186c5@stakehedge.com:26656' ryanhendricks/docker-cosmos:latest
+
+# Feel free to use an alternate seed node although without one the node will have issues starting
+
 ```
 
 ## Configuration
@@ -96,7 +99,7 @@ nohup gaiacli rest-server --trust-node --cors * --home $GAIAD_HOME --laddr tcp:/
 
 ## NOTES
 
-- The current SEEDS (nodes I am running) may not be around forever so consider overriding the defaults. If the badges above have do not have block numbers for either chain that means the seed nodes are no longer with us.
+- The current SEEDS (nodes I am running and supplying here since the ones from cosmos/launch repo all are not working as of this update) may not be around forever so consider overriding the defaults. If the badges above have do not have block numbers for either chain that means the seed nodes are no longer with us.
 - You probably should not run a validator with this setup.
 
 ## Contributing
