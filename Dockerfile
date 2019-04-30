@@ -45,7 +45,7 @@ RUN rm -r /tmp/bin
 EXPOSE 26656 26657 26658
 EXPOSE 1317
 
-ADD ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod u+x /usr/local/bin/entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
