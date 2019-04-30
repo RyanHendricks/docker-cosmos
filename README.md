@@ -18,7 +18,7 @@ Run a Dockerized full node on cosmoshub-2
 
 ## Quick Start
 
-The image can be run without any configuration
+The image can be run without any configuration and defaults to mainnet
 
 ```bash
 docker  run --rm -it -P ryanhendricks/docker-cosmos:latest
@@ -37,31 +37,42 @@ You can set the following env variables either in a docker-compose file or in th
 - CHAIN_ID
   - defaults to cosmoshub-2
 - GENESIS_URL
-  - defaults to cosmoshub2 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
+  - defaults to cosmoshub-2 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
 
 
 ### Config.toml Parameters
+
+The node configuration file is generated when starting the container. All parameters specified in the standard config.toml file can be set at runtime using environmental variables. If left unset the default values will be used.
+
 You can modify the config within the /scripts/entrypoint.sh file if you are cloning and building the image yourself. The config.toml is created dynamically when starting the container based on the ENV variables supplied above.
 
-### Running the Node
+## Build
 
-```sh
-docker  run --rm -it -P ryanhendricks/docker-cosmos:latest
+The following command will build the image.
 
-# or
-
-docker-compose up -d
+```bash
+docker build --rm -f Dockerfile -t docker-cosmos:latest .
 ```
 
-You're now running a cosmos node on cosmoshub-2 (mainnet).
+## Running
 
+### Mainnet
 
 [![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B)
+
+```sh
+docker-compose up -d --build
+```
+
+### Testnet
+
 [![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)
 
-Check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status).
+```sh
+docker-compose docker-compose-testnet.yml up -d --build
+```
 
-You probably should not run a validator with this setup.
+Check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status).
 
 ## Start the JSON-RPC rest server
 
@@ -83,5 +94,19 @@ Alternatively,
 nohup gaiacli rest-server --trust-node --cors * --home $GAIAD_HOME --laddr tcp://0.0.0.0:1317 > rest_log.txt &
 ```
 
+## NOTES
+
+- The current SEEDS (nodes I am running) may not be around forever so consider overriding the defaults. If the badges above have do not have block numbers for either chain that means the seed nodes are no longer with us.
+- You probably should not run a validator with this setup.
+
+## Contributing
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?)](http://makeapullrequest.com)
+
+### Contributors
 
 [![Keybase PGP](https://img.shields.io/keybase/pgp/ryanhendricks.svg?label=keybase&logo=keybase&logoColor=white)](https://keybase.io/ryanhendricks)
+
+## License
+
+![GitHub](https://img.shields.io/github/license/ryanhendricks/docker-cosmos.svg)
