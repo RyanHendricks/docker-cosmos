@@ -176,7 +176,7 @@ dial_timeout = "${DIAL_TIMEOUT:-3s}"
 [mempool]
 
 recheck = ${RECHECK:-true}
-broadcast = ${BROADCAST:-true}}
+broadcast = ${BROADCAST:-true}
 wal_dir = "${WAL_DIR}"
 
 # size of the mempool
