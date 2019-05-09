@@ -14,14 +14,13 @@ services:
       # - GAIAD_HOME=/.gaiad
       # - ADDR_BOOK_STRICT=false
       # - CACHE_SIZE=10000
+    restart: always
     ports:
       - "26656:26656"
       - "26657:26657"
       - "26658:26658"
       - "1317:1317" # for rest-server
     volumes:
-      - config:/.gaiad/config
-      - keys:/.gaiacli/keys
+      - data:/.gaiad
 volumes:
-  config:
-  keys:
+  data:
