@@ -23,13 +23,12 @@ RUN make tools && \
 # Final image
 FROM alpine:edge
 
-ENV GAIAD_HOME=/.gaiad
 
 # Install ca-certificates
-RUN apk add --update ca-certificates
+RUN apk add --no-cache --update ca-certificates supervisor
 
+# Temp directory for copying binaries
 RUN mkdir -p /tmp/bin
-
 WORKDIR /tmp/bin
 
 # Copy over binaries from the build-env
@@ -38,13 +37,22 @@ COPY --from=build-env /go/bin/gaiacli /tmp/bin
 RUN install -m 0755 -o root -g root -t /usr/local/bin gaiad
 RUN install -m 0755 -o root -g root -t /usr/local/bin gaiacli
 
-
+# Remove temp files
 RUN rm -r /tmp/bin
 
+# Add supervisor configuration files
+RUN mkdir -p /etc/supervisor/conf.d/
+COPY /supervisor/supervisord.conf /etc/supervisor/supervisord.conf 
+COPY /supervisor/conf.d/* /etc/supervisor/conf.d/
 
+ENV GAIAD_HOME=/.gaiad
+WORKDIR $GAIAD_HOME
+
+# Expose ports for gaiad and gaiacli rest-server
 EXPOSE 26656 26657 26658
 EXPOSE 1317
 
+# Add entrypoint script
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod u+x /usr/local/bin/entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
