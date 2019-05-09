@@ -5,7 +5,7 @@
 set -e
 echo "setting up initial configurations"
 
-if [ ! -d "$GAIAD_HOME/data" ];
+if [ ! -f "$GAIAD_HOME/config/config.toml" ];
 then
 
   gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-2}
@@ -259,7 +259,5 @@ namespace = "${NAMESPACE:-tendermint}"
 
 EOF
 
-
 fi
-
-gaiad start --home=$GAIAD_HOME
+exec supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf
