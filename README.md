@@ -33,25 +33,34 @@ docker  run --rm -it -P --env SEEDS='b1c618b89f8f996b7d07e1df710a33e4e4e186c5@st
 
 ## Configuration
 
+### Config.toml Parameters
+
+- The config.toml is created dynamically when starting the container.
+- All parameters specified in the standard config.toml file can be set using environmental variables with the same as the config parameter but in all caps.
+- If left unset the default values will be used.
+- Parameters can be set directly by modifying the config.toml portion of ./scripts/entrypoint.sh if you are cloning and building the image yourself.
+
+
 ### Environment Variables
+
+```bash
+# Example ENV variable from config.toml
+MONIKER=nonamenode
+
+# these variables are not set in config.toml and default to the following
+CHAIN_ID=cosmoshub-2
+GENESIS_URL=https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
+```
 
 You can set the following env variables either in a docker-compose file or in the docker run command if running the container directly. If left unchanged they will default to the values listed below.
 
 - MONIKER
   - defaults to "nonamenode"
-- GAIAD_HOME
-  - defaults to /.gaiad
 - CHAIN_ID
   - defaults to cosmoshub-2
 - GENESIS_URL
   - defaults to cosmoshub-2 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
 
-
-### Config.toml Parameters
-
-The node configuration file is generated when starting the container. All parameters specified in the standard config.toml file can be set at runtime using environmental variables. If left unset the default values will be used.
-
-You can modify the config within the /scripts/entrypoint.sh file if you are cloning and building the image yourself. The config.toml is created dynamically when starting the container based on the ENV variables supplied above.
 
 ## Build
 
@@ -79,26 +88,37 @@ docker-compose up -d --build
 docker-compose docker-compose-testnet.yml up -d --build
 ```
 
-Check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status).
+## Supervisor
 
-## Start the JSON-RPC rest server
+The image uses Supervisor to run both gaiad and gaiacli simultaneously at container runtime. Supervisor also restarts either process should it fail for some reason.
 
-attach to the running container and execute (or ```docker exec```) the following command:
+### Gaiad
+
+After starting the container you can check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status).
+
+or from the terminal
+
+```bash
+curl -X GET \
+  http://127.0.0.1:26657/status? \
+  -H 'cache-control: no-cache'
+```
+
+## Gaiacli Rest-Server
+
+Supervisor starts the rest-server with the following command:
 
 ```bash
 gaiacli rest-server --trust-node --cors * --home $GAIAD_HOME --laddr tcp://0.0.0.0:1317
 
-# verify with
+```
+
+You can verify that the rest-server is running using the following example
+
+```bash
 curl -X GET \
   http://127.0.0.1:1317/blocks/latest \
   -H 'cache-control: no-cache'
-```
-
-Alternatively,
-
-```bash
-# This will keep the rest-server running after term disconnect.
-nohup gaiacli rest-server --trust-node --cors * --home $GAIAD_HOME --laddr tcp://0.0.0.0:1317 > rest_log.txt &
 ```
 
 ## NOTES
