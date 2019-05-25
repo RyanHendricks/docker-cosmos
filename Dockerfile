@@ -3,7 +3,7 @@ FROM golang:alpine AS build-env
 # Modified from original cosmos-sdk Dockerfile
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
-ENV VERSION=v0.34.4
+ENV VERSION=v0.34.5
 
 # Set up dependencies
 RUN apk add --no-cache $PACKAGES
@@ -18,7 +18,7 @@ RUN git checkout $VERSION
 
 # Install minimum necessary dependencies, build Cosmos SDK, remove packages
 RUN make tools && \
-    make install
+  make install
 
 # Final image
 FROM alpine:edge
