@@ -25,8 +25,8 @@ Dockerized Cosmos Node
 The image can be run without any configuration and defaults to mainnet
 
 ```bash
-docker  run --rm -it -P --env SEEDS='b1c618b89f8f996b7d07e1df710a33e4e4e186c5@stakehedge.com:26656' ryanhendricks/docker-cosmos:latest
-
+docker  run --rm -it -P --env SEEDS='8b1c6aa44ed54ffd2a80353d941f8a7bf52f7d93@51.15.133.26:26656,1392fc5d2624149570e64509c72df407dce7b988@178.128.232.164:26656' docker-cosmos:latest
+http://
 # Feel free to use an alternate seed node although without one the node will have issues starting
 
 ```
@@ -74,7 +74,7 @@ docker build --rm -f Dockerfile -t docker-cosmos:latest .
 
 ### Mainnet
 
-[![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fstakeswaps.com:26657%2Fstatus&prefix=Block%2B)
+[![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fcryptocurrencyswaps.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fcryptocurrencyswaps.com:26657%2Fstatus&prefix=Block%2B)
 
 ```sh
 docker-compose up -d --build

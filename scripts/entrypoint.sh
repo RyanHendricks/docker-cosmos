@@ -23,11 +23,6 @@ then
 
 
 cat > config.toml << EOF
-# This is a TOML config file.
-# For more information, see https://github.com/toml-lang/toml
-
-##### main base config options #####
-
 # TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "${PROXY_APP:-tcp://127.0.0.1:26658}"
@@ -38,7 +33,7 @@ moniker = "${MONIKER:-moniker}"
 # If this node is many blocks behind the tip of the chain, FastSync
 # allows them to catchup quickly by downloading blocks in parallel
 # and verifying their commits
-fast_sync = ${FAST_SYNC:-true}
+fast_sync = "${FAST_SYNC:-true}"
 
 # Database backend: leveldb | memdb | cleveldb
 db_backend = "${DB_BACKEND:-leveldb}"
@@ -49,13 +44,21 @@ db_dir = "${DB_DIR:-data}"
 # Output level for logging, including package level options
 log_level = "${LOG_LEVEL:-main:info,state:info,*:error}"
 
+# Output format: 'plain' (colored text) or 'json'
+log_format = "${LOG_FORMAT:-plain}"
+
 ##### additional base config options #####
 
 # Path to the JSON file containing the initial validator set and other meta data
 genesis_file = "${GENESIS_FILE:-config/genesis.json}"
 
 # Path to the JSON file containing the private key to use as a validator in the consensus protocol
-priv_validator_file = "${PRIV_VALIDATOR_FILE:-config/priv_validator.json}"
+priv_validator_key_file = "${PRIV_VALIDATOR_KEY_FILE:-config/priv_validator_key.json}"
+
+
+# Path to the JSON file containing the last sign state of a validator
+priv_validator_state_file = "${PRIV_VALIDATOR_STATE_FILE:-data/priv_validator_state.json}"
+
 
 # TCP or UNIX socket address for Tendermint to listen on for
 # connections from an external PrivValidator process
@@ -72,7 +75,7 @@ prof_laddr = "${PROF_LADDR:-localhost:6060}"
 
 # If true, query the ABCI app on connecting to a new peer
 # so the app can decide if we should keep the connection or not
-filter_peers = ${FILTER_PEERS:-false}
+filter_peers = "${FILTER_PEERS:-false}"
 
 ##### advanced configuration options #####
 
@@ -81,6 +84,18 @@ filter_peers = ${FILTER_PEERS:-false}
 
 # TCP or UNIX socket address for the RPC server to listen on
 laddr = "${RPC_LADDR:-tcp://0.0.0.0:26657}"
+
+# A list of origins a cross-domain request can be executed from
+# Default value '[]' disables cors support
+# Use '["*"]' to allow any origin
+cors_allowed_origins = "${CORS_ALLOWED_ORIGINS:-[]}"
+
+# A list of methods the client is allowed to use with cross-domain requests
+cors_allowed_methods = ["HEAD", "GET", "POST", ]
+
+# A list of non simple headers the client is allowed to use with cross-domain requests
+cors_allowed_headers = ["Origin", "Accept", "Content-Type", "X-Requested-With", "X-Server-Time", ]
+
 
 # TCP or UNIX socket address for the gRPC server to listen on
 # NOTE: This server only supports /broadcast_tx_commit
@@ -106,6 +121,34 @@ unsafe = ${UNSAFE:-false}
 # Should be < {ulimit -Sn} - {MaxNumInboundPeers} - {MaxNumOutboundPeers} - {N of wal, db and other open files}
 # 1024 - 40 - 10 - 50 = 924 = ~900
 max_open_connections = ${MAX_OPEN_CONNECTIONS:-900}
+
+# Maximum number of unique clientIDs that can /subscribe
+# If you're using /broadcast_tx_commit, set to the estimated maximum number
+# of broadcast_tx_commit calls per block.
+max_subscription_clients = ${MAX_SUBSCRIPTION_CLIENTS:-100}
+
+# Maximum number of unique queries a given client can /subscribe to
+# If you're using GRPC (or Local RPC client) and /broadcast_tx_commit, set to
+# the estimated # maximum number of broadcast_tx_commit calls per block.
+max_subscriptions_per_client = ${MAX_SUBSCRIPTION_PER_CLIENT:-5}
+
+# How long to wait for a tx to be committed during /broadcast_tx_commit.
+# WARNING: Using a value larger than 10s will result in increasing the
+# global HTTP write timeout, which applies to all connections and endpoints.
+# See https://github.com/tendermint/tendermint/issues/3435
+timeout_broadcast_tx_commit = "${TIMEOUT_BROADCAST_TX_COMMIT:-10s}"
+
+# The name of a file containing certificate that is used to create the HTTPS server.
+# If the certificate is signed by a certificate authority,
+# the certFile should be the concatenation of the server's certificate, any intermediates,
+# and the CA's certificate.
+# NOTE: both tls_cert_file and tls_key_file must be present for Tendermint to create HTTPS server. Otherwise, HTTP server is run.
+tls_cert_file = "${TLS_CERT_FILE:-}"
+
+# The name of a file containing matching private key that is used to create the HTTPS server.
+# NOTE: both tls_cert_file and tls_key_file must be present for Tendermint to create HTTPS server. Otherwise, HTTP server is run.
+tls_key_file = "${TLS_KEY_FILE:-}"
+
 
 ##### peer to peer configuration options #####
 [p2p]
@@ -181,6 +224,11 @@ wal_dir = "${WAL_DIR}"
 
 # size of the mempool
 size = ${SIZE_OF_MEMPOOL:-5000}
+
+# Limit the total size of all txs in the mempool.
+# This only accounts for raw transactions (e.g. given 1MB transactions and
+# max_txs_bytes=5MB, mempool will only accept 5 transactions).
+max_txs_bytes = ${MAX_TXS_BYTES:-1073741824}
 
 # size of the cache (used to filter transactions we saw earlier)
 cache_size = ${CACHE_SIZE:-10000}
@@ -260,4 +308,5 @@ namespace = "${NAMESPACE:-tendermint}"
 EOF
 
 fi
-exec supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf
+# exec supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf
+gaiad start --home=$GAIAD_HOME
