@@ -1,6 +1,6 @@
 # Docker-Cosmos
 
-Dockerized Cosmos Node
+Dockerized Cosmos Node with Optional Bootstrap for Fast Syncing
 
 ---
 
@@ -25,7 +25,7 @@ Dockerized Cosmos Node
 The image can be run without any configuration and defaults to mainnet
 
 ```bash
-docker  run --rm -it -P --env SEEDS='8b1c6aa44ed54ffd2a80353d941f8a7bf52f7d93@51.15.133.26:26656,1392fc5d2624149570e64509c72df407dce7b988@178.128.232.164:26656' docker-cosmos:latest
+docker  run --rm -it -P --env SEEDS='8b1c6aa44ed54ffd2a80353d941f8a7bf52f7d93@51.15.133.26:26656,1392fc5d2624149570e64509c72df407dce7b988@178.128.232.164:26656' ryanhendricks/docker-cosmos:latest
 http://
 # Feel free to use an alternate seed node although without one the node will have issues starting
 
@@ -39,7 +39,6 @@ http://
 - All parameters specified in the standard config.toml file can be set using environmental variables with the same as the config parameter but in all caps.
 - If left unset the default values will be used.
 - Parameters can be set directly by modifying the config.toml portion of ./scripts/entrypoint.sh if you are cloning and building the image yourself.
-
 
 ### Environment Variables
 
@@ -61,6 +60,11 @@ You can set the following env variables either in a docker-compose file or in th
 - GENESIS_URL
   - defaults to cosmoshub-2 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
 
+### Bootstrapping
+
+  The entrypoint script allows for the node to be bootstrapped upon creation. This drastically reduces the time required to fully sync with the network. The start up time is increased relative to the amount of time it takes the host machine to download ~20GB of data and extract it into the data directory.
+
+  Set the ENV variable ```BOOTSTRAP=true``` to enable bootstrapping.
 
 ## Build
 
