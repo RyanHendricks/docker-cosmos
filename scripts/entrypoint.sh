@@ -23,6 +23,11 @@ then
 
 
 cat > config.toml << EOF
+# This is a TOML config file.
+# For more information, see https://github.com/toml-lang/toml
+
+##### main base config options #####
+
 # TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "${PROXY_APP:-tcp://127.0.0.1:26658}"
@@ -33,7 +38,7 @@ moniker = "${MONIKER:-moniker}"
 # If this node is many blocks behind the tip of the chain, FastSync
 # allows them to catchup quickly by downloading blocks in parallel
 # and verifying their commits
-fast_sync = "${FAST_SYNC:-true}"
+fast_sync = ${FAST_SYNC:-true}
 
 # Database backend: leveldb | memdb | cleveldb
 db_backend = "${DB_BACKEND:-leveldb}"
@@ -44,9 +49,6 @@ db_dir = "${DB_DIR:-data}"
 # Output level for logging, including package level options
 log_level = "${LOG_LEVEL:-main:info,state:info,*:error}"
 
-# Output format: 'plain' (colored text) or 'json'
-log_format = "${LOG_FORMAT:-plain}"
-
 ##### additional base config options #####
 
 # Path to the JSON file containing the initial validator set and other meta data
@@ -55,10 +57,8 @@ genesis_file = "${GENESIS_FILE:-config/genesis.json}"
 # Path to the JSON file containing the private key to use as a validator in the consensus protocol
 priv_validator_key_file = "${PRIV_VALIDATOR_KEY_FILE:-config/priv_validator_key.json}"
 
-
 # Path to the JSON file containing the last sign state of a validator
-priv_validator_state_file = "${PRIV_VALIDATOR_STATE_FILE:-data/priv_validator_state.json}"
-
+priv_validator_state_file = "${PRIV_VALIDATOR_KEY_FILE:-data/priv_validator_state.json}"
 
 # TCP or UNIX socket address for Tendermint to listen on for
 # connections from an external PrivValidator process
@@ -75,7 +75,7 @@ prof_laddr = "${PROF_LADDR:-localhost:6060}"
 
 # If true, query the ABCI app on connecting to a new peer
 # so the app can decide if we should keep the connection or not
-filter_peers = "${FILTER_PEERS:-false}"
+filter_peers = ${FILTER_PEERS:-false}
 
 ##### advanced configuration options #####
 
@@ -85,16 +85,18 @@ filter_peers = "${FILTER_PEERS:-false}"
 # TCP or UNIX socket address for the RPC server to listen on
 laddr = "${RPC_LADDR:-tcp://0.0.0.0:26657}"
 
+
 # A list of origins a cross-domain request can be executed from
 # Default value '[]' disables cors support
 # Use '["*"]' to allow any origin
-cors_allowed_origins = "${CORS_ALLOWED_ORIGINS:-[]}"
+cors_allowed_origins = ["*"]
 
 # A list of methods the client is allowed to use with cross-domain requests
-cors_allowed_methods = ["HEAD", "GET", "POST", ]
+cors_allowed_methods = ["HEAD", "GET", "POST"]
 
 # A list of non simple headers the client is allowed to use with cross-domain requests
-cors_allowed_headers = ["Origin", "Accept", "Content-Type", "X-Requested-With", "X-Server-Time", ]
+cors_allowed_headers = ["Origin", "Accept", "Content-Type", "X-Requested-With", "X-Server-Time"]
+
 
 
 # TCP or UNIX socket address for the gRPC server to listen on
@@ -121,6 +123,8 @@ unsafe = ${UNSAFE:-false}
 # Should be < {ulimit -Sn} - {MaxNumInboundPeers} - {MaxNumOutboundPeers} - {N of wal, db and other open files}
 # 1024 - 40 - 10 - 50 = 924 = ~900
 max_open_connections = ${MAX_OPEN_CONNECTIONS:-900}
+
+
 
 # Maximum number of unique clientIDs that can /subscribe
 # If you're using /broadcast_tx_commit, set to the estimated maximum number
@@ -182,19 +186,19 @@ addr_book_strict = ${ADDR_BOOK_STRICT:-false}
 max_num_inbound_peers = ${MAX_NUM_INBOUND_PEERS:-40}
 
 # Maximum number of outbound peers to connect to, excluding persistent peers
-max_num_outbound_peers = ${MAX_NUM_OUTBOUND_PEERS:-10}
+max_num_outbound_peers = ${MAX_NUM_OUTBOUND_PEERS:-40}
 
 # Time to wait before flushing messages out on the connection
 flush_throttle_timeout = "${FLUSH_THROTTLE_TIMEOUT:-100ms}"
 
 # Maximum size of a message packet payload, in bytes
-max_packet_msg_payload_size = ${MAX_PACKET_MSG_PAYLOAD_SIZE:-1024}
+max_packet_msg_payload_size = ${MAX_PACKET_MSG_PAYLOAD_SIZE:-5000}
 
 # Rate at which packets can be sent, in bytes/second
-send_rate = ${SEND_RATE:-5120000}
+send_rate = ${SEND_RATE:-40960000}
 
 # Rate at which packets can be received, in bytes/second
-recv_rate = ${RECV_RATE:-5120000}
+recv_rate = ${RECV_RATE:-40960000}
 
 # Set true to enable the peer-exchange reactor
 pex = ${PEX:-true}
@@ -225,10 +229,10 @@ wal_dir = "${WAL_DIR}"
 # size of the mempool
 size = ${SIZE_OF_MEMPOOL:-5000}
 
-# Limit the total size of all txs in the mempool.
 # This only accounts for raw transactions (e.g. given 1MB transactions and
 # max_txs_bytes=5MB, mempool will only accept 5 transactions).
 max_txs_bytes = ${MAX_TXS_BYTES:-1073741824}
+
 
 # size of the cache (used to filter transactions we saw earlier)
 cache_size = ${CACHE_SIZE:-10000}
@@ -294,7 +298,7 @@ index_all_tags = ${INDEX_ALL_TAGS:-true}
 prometheus = ${PROMETHEUS:-false}
 
 # Address to listen for Prometheus collector(s) connections
-prometheus_listen_addr = "${PROMETHEUS_LISTEN_ADDR:-:26660}"
+prometheus_listen_addr = "${PROMETHEUS_LISTEN_ADDR:-0.0.0.0:26660}"
 
 # Maximum number of simultaneous connections.
 # If you want to accept more significant number than the default, make sure
@@ -307,6 +311,15 @@ namespace = "${NAMESPACE:-tendermint}"
 
 EOF
 
+
+
+cd $GAIAD_HOME
+
+  if [ "$BOOTSTRAP" == "TRUE" ] then
+    wget https://storage.googleapis.com/a2h-node-bootstraps/$CHAIN_ID.tar.lz4
+    lz4 -d -v --rm cosmoshub-2.tar.lz4 | tar xf -
+  fi
+
 fi
-# exec supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf
-gaiad start --home=$GAIAD_HOME
+
+exec supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf
