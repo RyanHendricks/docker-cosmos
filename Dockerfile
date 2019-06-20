@@ -25,7 +25,7 @@ FROM alpine:edge
 
 
 # Install ca-certificates
-RUN apk add --no-cache --update ca-certificates supervisor
+RUN apk add --no-cache --update ca-certificates supervisor wget lz4
 
 # Temp directory for copying binaries
 RUN mkdir -p /tmp/bin
