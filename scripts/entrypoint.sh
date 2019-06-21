@@ -309,6 +309,7 @@ max_open_connections = ${MAX_OPEN_CONNECTIONS:-3}
 # Instrumentation namespace
 namespace = "${NAMESPACE:-tendermint}"
 
+
 EOF
 
 
@@ -317,7 +318,7 @@ cd $GAIAD_HOME
 
   if [ "$BOOTSTRAP" == "TRUE" ] then
     wget https://storage.googleapis.com/a2h-node-bootstraps/$CHAIN_ID.tar.lz4
-    lz4 -d -v --rm cosmoshub-2.tar.lz4 | tar xf -
+    lz4 -d -v --rm $CHAIN_ID.tar.lz4 | tar xf -
   fi
 
 fi
