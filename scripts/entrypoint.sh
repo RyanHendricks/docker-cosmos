@@ -316,7 +316,7 @@ EOF
 
 cd $GAIAD_HOME
 
-  if [ "$BOOTSTRAP" == "TRUE" ] then
+  if [ "$BOOTSTRAP" == "TRUE" ]; then
     wget https://storage.googleapis.com/a2h-node-bootstraps/$CHAIN_ID.tar.lz4
     lz4 -d -v --rm $CHAIN_ID.tar.lz4 | tar xf -
   fi
