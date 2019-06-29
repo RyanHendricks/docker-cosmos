@@ -124,8 +124,6 @@ unsafe = ${UNSAFE:-false}
 # 1024 - 40 - 10 - 50 = 924 = ~900
 max_open_connections = ${MAX_OPEN_CONNECTIONS:-900}
 
-
-
 # Maximum number of unique clientIDs that can /subscribe
 # If you're using /broadcast_tx_commit, set to the estimated maximum number
 # of broadcast_tx_commit calls per block.
@@ -320,6 +318,19 @@ cd $GAIAD_HOME
     wget https://storage.googleapis.com/a2h-node-bootstraps/$CHAIN_ID.tar.lz4
     lz4 -d -v --rm $CHAIN_ID.tar.lz4 | tar xf -
   fi
+
+fi
+
+
+if [ ! -z "$LCD_PORT" ]; then
+    rm /etc/supervisor/conf.d/supervisor-gaiacli.conf
+    cd /etc/supervisor/conf.d/
+
+cat > supervisor-gaiacli.conf << EOF
+[program:gaiacli]
+command=gaiacli rest-server --laddr tcp://0.0.0.0:${LCD_PORT:-1317} --home=${GAIAD_HOME:-/.gaiad} --trust-node --node=tcp://localhost:${RPC_LADDR_PORT:-26657} --cors="${CORS_ALLOWED_ORIGINS:-*}"
+redirect_stderr=true
+EOF
 
 fi
 
