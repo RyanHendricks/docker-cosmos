@@ -36,22 +36,25 @@ http://
 ### Config.toml Parameters
 
 - The config.toml is created dynamically when starting the container.
-- All parameters specified in the standard config.toml file can be set using environmental variables with the same as the config parameter but in all caps.
+- All parameters specified in the standard config.toml file can be set using environmental variables with the same name as the config parameter but in all caps. See [entrypoint script](./scripts/entrypoint.sh) for more details.
 - If left unset the default values will be used.
 - Parameters can be set directly by modifying the config.toml portion of ./scripts/entrypoint.sh if you are cloning and building the image yourself.
 
 ### Environment Variables
 
 ```bash
-# Example ENV variable from config.toml
-MONIKER=nonamenode
+# EXAMPLES
 
-# these variables are not set in config.toml and default to the following
+MONIKER=nonamenode
 CHAIN_ID=cosmoshub-2
 GENESIS_URL=https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
+BOOTSTRAP=TRUE
+SEEDS=
+PROMETHEUS=true
+
 ```
 
-You can set the following env variables either in a docker-compose file or in the docker run command if running the container directly. If left unchanged they will default to the values listed below.
+You can set ENV variables either in a docker-compose file or in the docker run command if running the container directly. If left unchanged they will default to the standard value except for the following:
 
 - MONIKER
   - defaults to "nonamenode"
@@ -64,7 +67,7 @@ You can set the following env variables either in a docker-compose file or in th
 
   The entrypoint script allows for the node to be bootstrapped upon creation. This drastically reduces the time required to fully sync with the network. The start up time is increased relative to the amount of time it takes the host machine to download ~20GB of data and extract it into the data directory.
 
-  Set the ENV variable ```BOOTSTRAP=true``` to enable bootstrapping.
+  Set the ENV variable ```BOOTSTRAP=TRUE``` to enable bootstrapping.
 
 ## Build
 
