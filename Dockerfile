@@ -23,7 +23,6 @@ RUN make tools && \
 # Final image
 FROM alpine:edge
 
-
 # Install ca-certificates
 RUN apk add --no-cache --update ca-certificates supervisor wget lz4
 
