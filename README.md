@@ -25,7 +25,7 @@ Dockerized Cosmos Node with Optional Bootstrap for Fast Syncing
 The image can be run without any configuration and defaults to mainnet
 
 ```bash
-docker  run --rm -it -P --env SEEDS='8b1c6aa44ed54ffd2a80353d941f8a7bf52f7d93@51.15.133.26:26656,1392fc5d2624149570e64509c72df407dce7b988@178.128.232.164:26656' ryanhendricks/docker-cosmos:latest
+docker  run --rm -it -P --env SEEDS='0141b28d81db4e5b55736a6367cf044c35a8c29e@35:245:96:132:26656' ryanhendricks/docker-cosmos:latest
 # Feel free to use an alternate seed node although without one the node will have issues starting
 
 ```
