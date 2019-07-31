@@ -10,8 +10,8 @@ services:
       - MONIKER=NodeName
       - CHAIN_ID=cosmoshub-2
       - GENESIS_URL=https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
-      - SEEDS=b1c618b89f8f996b7d07e1df710a33e4e4e186c5@stakehedge.com:26656
-      # - GAIAD_HOME=/.gaiad
+      - SEEDS=0141b28d81db4e5b55736a6367cf044c35a8c29e@35.245.96.132:26656
+      - BOOTSTRAP=FALSE
       # - ADDR_BOOK_STRICT=false
       # - CACHE_SIZE=10000
     restart: always
