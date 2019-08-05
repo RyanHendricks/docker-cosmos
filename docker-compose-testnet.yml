@@ -1,17 +1,17 @@
 version: '3'
 
 services:
-  docker-cosmos:
-    container_name: cosmos_testnet
+  cosmos-testnet:
+    container_name: cosmos-testnet
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-testnet
     environment: 
       - MONIKER=NodeName
-      - CHAIN_ID=gaia-13003
+      - CHAIN_ID=gaia-13004
       - GENESIS_URL=https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json
-      - SEEDS=ed9276861553e796bc17729f6be4a3f7626d68f1@digiderivatives.com:26656
-      # - GAIAD_HOME=/.gaiad
+      - SEEDS=17c443c877662296fd46f67b6a1a27a4821b996a@highfrequencystaking.com:26656
+      - BOOTSTRAP=FALSE
       # - ADDR_BOOK_STRICT=false
       # - CACHE_SIZE=10000
     restart: always
@@ -21,6 +21,6 @@ services:
       - "26658:26658"
       - "1317:1317" # for rest-server
     volumes:
-      - testnet_data:/.gaiad
+      - cosmos-testnet-data:/.gaiad
 volumes:
-  testnet_data:
+  cosmos-testnet-data:

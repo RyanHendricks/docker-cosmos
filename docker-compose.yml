@@ -2,7 +2,7 @@ version: '3'
 
 services:
   docker-cosmos:
-    container_name: cosmos_mainnet
+    container_name: cosmos-mainnet
     build:
       context: .
       dockerfile: Dockerfile
@@ -21,6 +21,7 @@ services:
       - "26658:26658"
       - "1317:1317" # for rest-server
     volumes:
-      - data:/.gaiad
+      - cosmos-mainnet-data:/.gaiad
 volumes:
-  data:
+  cosmos-mainnet-data:
+
