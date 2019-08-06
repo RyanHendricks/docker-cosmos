@@ -12,6 +12,8 @@ services:
       - GENESIS_URL=https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json
       - SEEDS=17c443c877662296fd46f67b6a1a27a4821b996a@highfrequencystaking.com:26656
       - BOOTSTRAP=FALSE
+      - MAX_OPEN_CONNECTIONS=0
+      - CACHE_SIZE=50000
       # - ADDR_BOOK_STRICT=false
       # - CACHE_SIZE=10000
     restart: always

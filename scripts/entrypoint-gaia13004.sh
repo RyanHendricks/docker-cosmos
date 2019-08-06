@@ -277,7 +277,7 @@ indexer = "${INDEXER:-kv}"
 # It's recommended to index only a subset of tags due to possible memory
 # bloat. This is, of course, depends on the indexer's DB and the volume of
 # transactions.
-index_tags = "${INDEX_TAGS:-tx.height,tx.hash,tx.events,tx.data,tx.info}"
+# index_tags = "${INDEX_TAGS:-tx.height,tx.hash,tx.events,tx.data,tx.info}"
 
 # When set to true, tells indexer to index all tags (predefined tags:
 # "tx.hash", "tx.height" and all tags from DeliverTx responses).
