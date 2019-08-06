@@ -31,7 +31,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Docker image
-          command: docker build -t $IMAGE_NAME:testnet -f Dockerfile-testnet
+          command: docker build -t $IMAGE_NAME:testnet . -f ./Dockerfile-testnet
       - run:
           name: tag image
           command: docker tag $IMAGE_NAME:testnet $IMAGE_NAME:$VERSION-$CIRCLE_SHA1
