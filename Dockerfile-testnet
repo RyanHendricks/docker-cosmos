@@ -4,7 +4,7 @@ ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
 ENV VERSION rc1/v1.0.0
 
 # Set up dependencies
-RUN apk add --no-cache $PACKAGES
+RUN apk add --update --no-cache $PACKAGES
 
 # Set working directory for the build
 WORKDIR /go/src/github.com/cosmos/
