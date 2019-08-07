@@ -9,11 +9,15 @@ services:
     environment: 
       - MONIKER=NodeName
       - CHAIN_ID=gaia-13004
-      - GENESIS_URL=https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json
+      - GENESIS_URL=https://raw.githubusercontent.com/cosmos/testnets/master/latest/genesis.json
       - SEEDS=17c443c877662296fd46f67b6a1a27a4821b996a@highfrequencystaking.com:26656
-      - BOOTSTRAP=FALSE
-      - MAX_OPEN_CONNECTIONS=0
-      - CACHE_SIZE=50000
+      # - LCD_PORT=3317
+      # - RPC_LADDR_PORT=36657
+      # - CONNECTIONS_LADDR_PORT=36656
+      # - PROXY_APP_PORT=36658
+      # - BOOTSTRAP=FALSE
+      # - CACHE_SIZE=50000
+      - GAIAD_HOME=/.gaiad
       # - ADDR_BOOK_STRICT=false
       # - CACHE_SIZE=10000
     restart: always

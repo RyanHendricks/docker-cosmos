@@ -8,7 +8,7 @@ echo "setting up initial configurations"
 if [ ! -f "$GAIAD_HOME/config/config.toml" ];
 then
 
-  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-2}
+  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13004}
 
   cd $GAIAD_HOME/config
 
@@ -18,7 +18,7 @@ then
   if [ ! -z "$GENESIS_URL" ]; then
       wget $GENESIS_URL
   else
-      wget https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
+      wget https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json
   fi
 
 
@@ -302,7 +302,7 @@ prometheus_listen_addr = ":${PROMETHEUS_PORT:-26660}"
 # If you want to accept more significant number than the default, make sure
 # you increase your OS limits.
 # 0 - unlimited.
-max_open_connections = ${MAX_OPEN_CONNECTIONS:-3}
+max_open_connections = ${MAX_OPEN_CONNECTIONS:-0}
 
 # Instrumentation namespace
 namespace = "${NAMESPACE:-tendermint}"
@@ -328,7 +328,7 @@ if [ ! -z "$LCD_PORT" ]; then
 
 cat > supervisor-gaiacli.conf << EOF
 [program:gaiacli]
-command=gaiacli rest-server --laddr tcp://0.0.0.0:${LCD_PORT:-1317} --home=${GAIAD_HOME:-/.gaiad} --trust-node --node=tcp://localhost:${RPC_LADDR_PORT:-26657} --cors="${CORS_ALLOWED_ORIGINS:-*}"
+command=gaiacli rest-server --laddr tcp://0.0.0.0:${LCD_PORT:-1317} --home=${GAIAD_HOME:-/.gaiad} --trust-node --node=tcp://0.0.0.0:${RPC_LADDR_PORT:-26657}
 redirect_stderr=true
 EOF
 
