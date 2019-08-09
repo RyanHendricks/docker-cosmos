@@ -8,7 +8,7 @@ echo "setting up initial configurations"
 if [ ! -f "$GAIAD_HOME/config/config.toml" ];
 then
 
-  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13004}
+  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13005}
 
   cd $GAIAD_HOME/config
 
@@ -18,7 +18,7 @@ then
   if [ ! -z "$GENESIS_URL" ]; then
       wget $GENESIS_URL
   else
-      wget https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json
+      wget https://raw.githubusercontent.com/cosmos/testnets/master/latest/genesis.json
   fi
 
 
@@ -165,7 +165,7 @@ laddr = "tcp://0.0.0.0:${CONNECTIONS_LADDR_PORT:-26656}"
 external_address = "${EXTERNAL_ADDRESS:-}"
 
 # Comma separated list of seed nodes to connect to
-seeds = "${SEEDS:-}"
+seeds = "${SEEDS:-SEEDS=35b9658ca14dd4908b37f327870cbd5007ee06f1@116.203.146.149:26656, c24f496b951148697f8a24fd749786075c128f00@35.203.176.214:26656, 6be0856f6365559fdc2e9e97a07d609f754632b0@cosmos-gaia-13004-seed.nodes.polychainlabs.com:26656}"
 
 # Comma separated list of nodes to keep persistent connections to
 persistent_peers = "${PERSISTENT_PEERS:-}"
