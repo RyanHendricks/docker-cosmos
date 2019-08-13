@@ -51,7 +51,7 @@ EXPOSE 26656 26657 26658
 EXPOSE 1317
 
 # Add entrypoint script
-COPY ./scripts/entrypoint-gaia13004.sh /usr/local/bin/entrypoint.sh
+COPY ./scripts/entrypoint-gaia13005.sh /usr/local/bin/entrypoint.sh
 RUN chmod u+x /usr/local/bin/entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
