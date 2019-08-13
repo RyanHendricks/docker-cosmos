@@ -190,7 +190,7 @@ max_num_outbound_peers = ${MAX_NUM_OUTBOUND_PEERS:-40}
 flush_throttle_timeout = "${FLUSH_THROTTLE_TIMEOUT:-100ms}"
 
 # Maximum size of a message packet payload, in bytes
-max_packet_msg_payload_size = ${MAX_PACKET_MSG_PAYLOAD_SIZE:-5000}
+max_packet_msg_payload_size = ${MAX_PACKET_MSG_PAYLOAD_SIZE:-1024}
 
 # Rate at which packets can be sent, in bytes/second
 send_rate = ${SEND_RATE:-10240000}
@@ -211,7 +211,7 @@ seed_mode = ${SEED_MODE:-false}
 private_peer_ids = "${PRIVATE_PEER_IDS:-}"
 
 # Toggle to disable guard against peers connecting from the same ip.
-allow_duplicate_ip = ${ALLOW_DUPLICATE_IP:-true}
+allow_duplicate_ip = ${ALLOW_DUPLICATE_IP:-false}
 
 # Peer connection configuration.
 handshake_timeout = "${HANDSHAKE_TIMEOUT:-20s}"
