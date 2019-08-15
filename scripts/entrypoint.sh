@@ -193,7 +193,7 @@ flush_throttle_timeout = "${FLUSH_THROTTLE_TIMEOUT:-100ms}"
 max_packet_msg_payload_size = ${MAX_PACKET_MSG_PAYLOAD_SIZE:-5000}
 
 # Rate at which packets can be sent, in bytes/second
-send_rate = ${SEND_RATE:-5210000}
+send_rate = ${SEND_RATE:-5120000}
 
 # Rate at which packets can be received, in bytes/second
 recv_rate = ${RECV_RATE:-5120000}
