@@ -315,8 +315,9 @@ EOF
 cd $GAIAD_HOME
 
   if [ "$BOOTSTRAP" == "TRUE" ]; then
-    wget https://storage.googleapis.com/a2h-node-bootstraps/$CHAIN_ID.tar.lz4
-    lz4 -d -v --rm $CHAIN_ID.tar.lz4 | tar xf -
+    echo "Downloading data archive and bootstrapping node.. This may take some time..."
+    wget https://storage.googleapis.com/node-bootstraps/cosmoshub-2.tar.lz4
+    lz4 -d -v --rm cosmoshub-2.tar.lz4 | tar xf -
   fi
 
 fi
@@ -328,7 +329,7 @@ if [ ! -z "$LCD_PORT" ]; then
 
 cat > supervisor-gaiacli.conf << EOF
 [program:gaiacli]
-command=gaiacli rest-server --laddr tcp://0.0.0.0:${LCD_PORT:-1317} --home=${GAIAD_HOME:-/.gaiad} --trust-node --node=tcp://localhost:${RPC_LADDR_PORT:-26657} --cors="${CORS_ALLOWED_ORIGINS:-*}"
+command=gaiacli rest-server --laddr tcp://0.0.0.0:${LCD_PORT:-1317} --home=${GAIAD_HOME:-/.gaiad} --trust-node --node=tcp://0.0.0.0:${RPC_LADDR_PORT:-26657}"
 redirect_stderr=true
 EOF
 
