@@ -8,7 +8,7 @@ echo "setting up initial configurations"
 if [ ! -f "$GAIAD_HOME/config/config.toml" ];
 then
 
-  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13005}
+  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13006}
 
   cd $GAIAD_HOME/config
 
