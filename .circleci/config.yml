@@ -23,7 +23,7 @@ jobs:
   build-testnet:
     environment:
       IMAGE_NAME: ryanhendricks/docker-cosmos
-      VERSION: v1.0.0
+      VERSION: v2.0.0
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
