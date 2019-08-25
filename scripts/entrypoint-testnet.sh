@@ -165,7 +165,7 @@ laddr = "tcp://0.0.0.0:${CONNECTIONS_LADDR_PORT:-26656}"
 external_address = "${EXTERNAL_ADDRESS:-}"
 
 # Comma separated list of seed nodes to connect to
-seeds = "${SEEDS:-SEEDS=35b9658ca14dd4908b37f327870cbd5007ee06f1@116.203.146.149:26656, c24f496b951148697f8a24fd749786075c128f00@35.203.176.214:26656, 6be0856f6365559fdc2e9e97a07d609f754632b0@cosmos-gaia-13004-seed.nodes.polychainlabs.com:26656}"
+seeds = "${SEEDS:-}"
 
 # Comma separated list of nodes to keep persistent connections to
 persistent_peers = "${PERSISTENT_PEERS:-}"
@@ -181,10 +181,10 @@ addr_book_file = "${ADDR_BOOK_FILE:-config/addrbook.json}"
 addr_book_strict = ${ADDR_BOOK_STRICT:-false}
 
 # Maximum number of inbound peers
-max_num_inbound_peers = ${MAX_NUM_INBOUND_PEERS:-40}
+max_num_inbound_peers = ${MAX_NUM_INBOUND_PEERS:-3}
 
 # Maximum number of outbound peers to connect to, excluding persistent peers
-max_num_outbound_peers = ${MAX_NUM_OUTBOUND_PEERS:-40}
+max_num_outbound_peers = ${MAX_NUM_OUTBOUND_PEERS:-10}
 
 # Time to wait before flushing messages out on the connection
 flush_throttle_timeout = "${FLUSH_THROTTLE_TIMEOUT:-100ms}"
@@ -302,7 +302,7 @@ prometheus_listen_addr = ":${PROMETHEUS_PORT:-26660}"
 # If you want to accept more significant number than the default, make sure
 # you increase your OS limits.
 # 0 - unlimited.
-max_open_connections = ${MAX_OPEN_CONNECTIONS:-0}
+max_open_connections = ${MAX_OPEN_CONNECTIONS:-10}
 
 # Instrumentation namespace
 namespace = "${NAMESPACE:-tendermint}"
