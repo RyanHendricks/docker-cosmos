@@ -1,7 +1,7 @@
 FROM golang:1.12.7-alpine AS testnet-buildenv
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
-ENV VERSION v2.0.0
+ENV VERSION v2.0.1
 
 # Set up dependencies
 RUN apk add --update --no-cache $PACKAGES
