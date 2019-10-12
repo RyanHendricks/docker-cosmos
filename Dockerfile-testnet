@@ -1,4 +1,4 @@
-FROM golang:1.12.7-alpine AS testnet-buildenv
+FROM golang:1.13-alpine AS testnet-buildenv
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
 ENV VERSION v2.0.1
