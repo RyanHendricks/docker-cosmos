@@ -11,19 +11,17 @@ services:
       - CHAIN_ID=gaia-13006
       - GENESIS_URL=https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json
       - SEEDS=17c443c877662296fd46f67b6a1a27a4821b996a@highfrequencystaking.com:26656
-      # - LCD_PORT=3317
-      # - RPC_LADDR_PORT=36657
-      # - CONNECTIONS_LADDR_PORT=36656
-      # - PROXY_APP_PORT=36658
-      # - BOOTSTRAP=FALSE
       - CACHE_SIZE=50000
       - GRPC_MAX_OPEN_CONNECTIONS=2100
       - MAX_OPEN_CONNECTIONS=0
       - GAIAD_HOME=/.gaiad
       - MAX_SUBSCRIPTION_PER_CLIENT=25
-      # - CACHE_SIZE
       # - ADDR_BOOK_STRICT=false
-      - CACHE_SIZE=10000
+      # - LCD_PORT=3317
+      # - RPC_LADDR_PORT=36657
+      # - CONNECTIONS_LADDR_PORT=36656
+      # - PROXY_APP_PORT=36658
+      # - BOOTSTRAP=FALSE
     restart: always
     ports:
       - "26656:26656"

@@ -10,7 +10,7 @@ services:
       - MONIKER=NodeName
       - CHAIN_ID=cosmoshub-2
       - GENESIS_URL=https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
-      - SEEDS=0141b28d81db4e5b55736a6367cf044c35a8c29e@35.245.96.132:26656
+      - SEEDS=207737c436edf4778b983ac067fb4b8048c42c9e@35.196.175.11:26656
       - BOOTSTRAP=FALSE
       # - ADDR_BOOK_STRICT=false
       # - CACHE_SIZE=10000
