@@ -1,4 +1,4 @@
-FROM golang:1.13-alpine AS testnet-buildenv
+FROM golang:1.13-alpine AS buildenv
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
 ENV VERSION v2.0.3
@@ -30,8 +30,8 @@ RUN apk add --no-cache --update ca-certificates supervisor wget lz4
 RUN mkdir -p /tmp/bin
 WORKDIR /tmp/bin
 
-COPY --from=testnet-buildenv /go/bin/gaiad /tmp/bin
-COPY --from=testnet-buildenv /go/bin/gaiacli /tmp/bin
+COPY --from=buildenv /go/bin/gaiad /tmp/bin
+COPY --from=buildenv /go/bin/gaiacli /tmp/bin
 RUN install -m 0755 -o root -g root -t /usr/local/bin gaiad
 RUN install -m 0755 -o root -g root -t /usr/local/bin gaiacli
 
@@ -51,7 +51,7 @@ EXPOSE 26656 26657 26658
 EXPOSE 1317
 
 # Add entrypoint script
-COPY ./scripts/entrypoint-testnet.sh /usr/local/bin/entrypoint.sh
+COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod u+x /usr/local/bin/entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
