@@ -8,7 +8,7 @@ echo "setting up initial configurations"
 if [ ! -f "$GAIAD_HOME/config/config.toml" ];
 then
 
-  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-2}
+  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-3}
 
   cd $GAIAD_HOME/config
 
@@ -30,7 +30,7 @@ cat > config.toml << EOF
 
 # TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
-proxy_app = "${PROXY_APP:-tcp://127.0.0.1:26658}"
+proxy_app = "${PROXY_APP:-tcp://0.0.0.0:26658}"
 
 # A custom human readable name for this node
 moniker = "${MONIKER:-moniker}"
@@ -41,13 +41,15 @@ moniker = "${MONIKER:-moniker}"
 fast_sync = ${FAST_SYNC:-true}
 
 # Database backend: leveldb | memdb | cleveldb
-db_backend = "${DB_BACKEND:-leveldb}"
+db_backend = "${DB_BACKEND:-goleveldb}"
 
 # Database directory
 db_dir = "${DB_DIR:-data}"
 
 # Output level for logging, including package level options
 log_level = "${LOG_LEVEL:-main:info,state:info,*:error}"
+
+log_format = "${LOG_FORMAT:-plain}"
 
 ##### additional base config options #####
 
@@ -83,7 +85,7 @@ filter_peers = ${FILTER_PEERS:-false}
 [rpc]
 
 # TCP or UNIX socket address for the RPC server to listen on
-laddr = "${RPC_LADDR:-tcp://0.0.0.0:26657}"
+laddr = "${RPC_LADDR:-tcp://127.0.0.1:26657}"
 
 
 # A list of origins a cross-domain request can be executed from
@@ -140,6 +142,13 @@ max_subscriptions_per_client = ${MAX_SUBSCRIPTION_PER_CLIENT:-5}
 # See https://github.com/tendermint/tendermint/issues/3435
 timeout_broadcast_tx_commit = "${TIMEOUT_BROADCAST_TX_COMMIT:-10s}"
 
+
+# Maximum size of request body, in bytes
+max_body_bytes = ${MAX_SIZE_REQUEST_BODY:-1000000}
+
+# Maximum size of request header, in bytes
+max_header_bytes = ${MAX_SIZE_REQUEST_HEADER:-1048576}
+
 # The name of a file containing certificate that is used to create the HTTPS server.
 # If the certificate is signed by a certificate authority,
 # the certFile should be the concatenation of the server's certificate, any intermediates,
@@ -178,19 +187,19 @@ addr_book_file = "${ADDR_BOOK_FILE:-config/addrbook.json}"
 
 # Set true for strict address routability rules
 # Set false for private or local networks
-addr_book_strict = ${ADDR_BOOK_STRICT:-false}
+addr_book_strict = ${ADDR_BOOK_STRICT:-true}
 
 # Maximum number of inbound peers
 max_num_inbound_peers = ${MAX_NUM_INBOUND_PEERS:-40}
 
 # Maximum number of outbound peers to connect to, excluding persistent peers
-max_num_outbound_peers = ${MAX_NUM_OUTBOUND_PEERS:-40}
+max_num_outbound_peers = ${MAX_NUM_OUTBOUND_PEERS:-10}
 
 # Time to wait before flushing messages out on the connection
 flush_throttle_timeout = "${FLUSH_THROTTLE_TIMEOUT:-100ms}"
 
 # Maximum size of a message packet payload, in bytes
-max_packet_msg_payload_size = ${MAX_PACKET_MSG_PAYLOAD_SIZE:-5000}
+max_packet_msg_payload_size = ${MAX_PACKET_MSG_PAYLOAD_SIZE:-1024}
 
 # Rate at which packets can be sent, in bytes/second
 send_rate = ${SEND_RATE:-5120000}
@@ -211,7 +220,7 @@ seed_mode = ${SEED_MODE:-false}
 private_peer_ids = "${PRIVATE_PEER_IDS:-}"
 
 # Toggle to disable guard against peers connecting from the same ip.
-allow_duplicate_ip = ${ALLOW_DUPLICATE_IP:-true}
+allow_duplicate_ip = ${ALLOW_DUPLICATE_IP:-false}
 
 # Peer connection configuration.
 handshake_timeout = "${HANDSHAKE_TIMEOUT:-20s}"
@@ -234,6 +243,20 @@ max_txs_bytes = ${MAX_TXS_BYTES:-1073741824}
 
 # size of the cache (used to filter transactions we saw earlier)
 cache_size = ${CACHE_SIZE:-10000}
+
+
+# Maximum size of a single transaction.
+max_tx_bytes = ${MAX_TX_BYTES:-1048576}
+
+##### fast sync configuration options #####
+[fastsync]
+
+# Fast Sync version to use:
+#   1) "v0" (default) - the legacy fast sync implementation
+#   2) "v1" - refactor of v0 version for better testability
+version = "${FAST_SYNC_VERSION:-v0}"
+
+
 
 ##### consensus configuration options #####
 [consensus]
@@ -268,7 +291,7 @@ peer_query_maj23_sleep_duration = "${PEER_QUERY_MAJ23_SLEEP_DURATION:-2s}"
 # Options:
 #   1) "null" (default)
 #   2) "kv" - the simplest possible indexer, backed by key-value storage (defaults to levelDB; see DBBackend).
-indexer = "${INDEXED:-kv}"
+indexer = "${INDEXER_SELECTION:-kv}"
 
 # Comma-separated list of tags to index (by default the only tag is "tx.hash")
 #
