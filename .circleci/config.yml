@@ -14,12 +14,12 @@ jobs:
           command: docker build -t $IMAGE_NAME:latest .
       - run:
           name: tag image
-          command: docker tag $IMAGE_NAME:latest $IMAGE_NAME:$VERSION-$CIRCLE_SHA1
+          command: docker tag $IMAGE_NAME:latest $IMAGE_NAME:$VERSION
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $IMAGE_NAME:latest && docker push $IMAGE_NAME:$VERSION-$CIRCLE_SHA1
+            docker push $IMAGE_NAME:latest && docker push $IMAGE_NAME:$VERSION
   build-testnet:
     environment:
       IMAGE_NAME: ryanhendricks/docker-cosmos
