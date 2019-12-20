@@ -25,7 +25,7 @@ Dockerized Cosmos Node with Optional Bootstrap for Fast Syncing
 The image can be run without any configuration and defaults to mainnet
 
 ```bash
-docker  run --rm -it -P --env SEEDS='0141b28d81db4e5b55736a6367cf044c35a8c29e@35:245:96:132:26656' ryanhendricks/docker-cosmos:latest
+docker  run --rm -it -P --env SEEDS='067041dc191225c016749d43b0c51964e74aded4@35:245:96:132:26656' ryanhendricks/docker-cosmos:latest
 # Feel free to use an alternate seed node although without one the node will have issues starting
 
 ```
@@ -58,9 +58,9 @@ You can set ENV variables either in a docker-compose file or in the docker run c
 - MONIKER
   - defaults to "nonamenode"
 - CHAIN_ID
-  - defaults to cosmoshub-2
+  - defaults to cosmoshub-3
 - GENESIS_URL
-  - defaults to cosmoshub-2 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
+  - defaults to cosmoshub-3 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
 
 ### Bootstrapping
 
@@ -80,15 +80,11 @@ docker build --rm -f Dockerfile -t docker-cosmos:latest .
 
 ### Mainnet
 
-[![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fcryptocurrencyswaps.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Cosmoshub-2&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fcryptocurrencyswaps.com:26657%2Fstatus&prefix=Block%2B)
-
 ```sh
 docker-compose up -d --build
 ```
 
 ### Testnet
-
-[![image](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)](https://img.shields.io/badge/dynamic/json.svg?color=blue&label=Gaia-13003&query=result.sync_info.latest_block_height&url=http%3A%2F%2Fdigiderivatives.com:26657%2Fstatus&prefix=Block%2B)
 
 ```sh
 docker-compose docker-compose-testnet.yml up -d --build

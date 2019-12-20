@@ -8,7 +8,7 @@ echo "setting up initial configurations"
 if [ ! -f "$GAIAD_HOME/config/config.toml" ];
 then
 
-  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13006}
+  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-gaia-13007}
 
   cd $GAIAD_HOME/config
 
@@ -18,7 +18,7 @@ then
   if [ ! -z "$GENESIS_URL" ]; then
       wget $GENESIS_URL
   else
-      wget https://raw.githubusercontent.com/cosmos/testnets/master/latest/genesis.json
+      wget https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/13007/genesis.json
   fi
 
 
