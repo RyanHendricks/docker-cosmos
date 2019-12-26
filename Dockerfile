@@ -23,6 +23,8 @@ RUN make tools && \
 
 FROM alpine:edge
 
+ENV GAIAD_HOME=/.gaiad
+
 # Install ca-certificates
 RUN apk add --no-cache --update ca-certificates supervisor wget lz4
 
@@ -43,7 +45,7 @@ RUN mkdir -p /etc/supervisor/conf.d/
 COPY /supervisor/supervisord.conf /etc/supervisor/supervisord.conf 
 COPY /supervisor/conf.d/* /etc/supervisor/conf.d/
 
-ENV GAIAD_HOME=/.gaiad
+
 WORKDIR $GAIAD_HOME
 
 # Expose ports for gaiad and gaiacli rest-server
