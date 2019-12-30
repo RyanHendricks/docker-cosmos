@@ -30,7 +30,7 @@ cat > config.toml << EOF
 
 # TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
-proxy_app = "${PROXY_APP:-tcp://0.0.0.0:26658}"
+proxy_app = "${PROXY_APP:-tcp://0.0.0.0}:${PROXY_APP_PORT:-26658}"
 
 # A custom human readable name for this node
 moniker = "${MONIKER:-moniker}"
@@ -85,7 +85,7 @@ filter_peers = ${FILTER_PEERS:-false}
 [rpc]
 
 # TCP or UNIX socket address for the RPC server to listen on
-laddr = "${RPC_LADDR:-tcp://127.0.0.1:26657}"
+laddr = "${RPC_LADDR:-tcp://0.0.0.0}:${RPC_PORT:-26657}"
 
 
 # A list of origins a cross-domain request can be executed from
@@ -165,7 +165,7 @@ tls_key_file = "${TLS_KEY_FILE:-}"
 [p2p]
 
 # Address to listen for incoming connections
-laddr = "${P2P_LADDR:-tcp://0.0.0.0:26656}"
+laddr = "${P2P_LADDR:-tcp://0.0.0.0}:${P2P_PORT:-26656}"
 
 # Address to advertise to peers for them to dial
 # If empty, will use the same port as the laddr,
@@ -319,7 +319,7 @@ index_all_tags = ${INDEX_ALL_TAGS:-true}
 prometheus = ${PROMETHEUS:-false}
 
 # Address to listen for Prometheus collector(s) connections
-prometheus_listen_addr = ":${PROMETHEUS_PORT:-26660}"
+prometheus_listen_addr = ":${PROMETHEUS_LISTEN_ADDR:-26660}"
 
 # Maximum number of simultaneous connections.
 # If you want to accept more significant number than the default, make sure

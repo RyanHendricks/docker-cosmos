@@ -296,7 +296,7 @@ index_all_tags = ${INDEX_ALL_TAGS:-true}
 prometheus = ${PROMETHEUS:-false}
 
 # Address to listen for Prometheus collector(s) connections
-prometheus_listen_addr = ":${PROMETHEUS_PORT:-26660}"
+prometheus_listen_addr = ":${PROMETHEUS_LISTEN_ADDR:-26660}"
 
 # Maximum number of simultaneous connections.
 # If you want to accept more significant number than the default, make sure
