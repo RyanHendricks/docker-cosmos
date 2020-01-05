@@ -64,6 +64,10 @@ You can set ENV variables either in a docker-compose file or in the docker run c
 
 ### Bootstrapping
 
+  **Not currently available for cosmoshub-3**
+
+  Will be reinstated once the chain surpasses 500K blocks.
+
   The entrypoint script allows for the node to be bootstrapped upon creation. This drastically reduces the time required to fully sync with the network. The start up time is increased relative to the amount of time it takes the host machine to download ~20GB of data and extract it into the data directory.
 
   Set the ENV variable ```BOOTSTRAP=TRUE``` to enable bootstrapping.
