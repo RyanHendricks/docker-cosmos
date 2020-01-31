@@ -341,11 +341,11 @@ EOF
 
 cd $GAIAD_HOME
 
-  # if [ "$BOOTSTRAP" == "TRUE" ]; then
-  #   echo "Downloading data archive and bootstrapping node.. This may take some time..."
-  #   wget https://storage.googleapis.com/node-bootstraps/cosmoshub-2.tar.lz4
-  #   lz4 -d -v --rm cosmoshub-2.tar.lz4 | tar xf -
-  # fi
+  if [ "$BOOTSTRAP" == "TRUE" ]; then
+    echo "Downloading data archive and bootstrapping node.. This may take some time..."
+    wget http://quicksync.chainlayer.io/cosmos/cosmoshub-3.20200128.0105.tar.lz4
+    lz4 -d -v --rm cosmoshub-3.20200128.0105.tar.lz4 | tar xf -
+  fi
 
 fi
 
