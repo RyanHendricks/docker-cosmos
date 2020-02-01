@@ -1,12 +1,27 @@
 # Changelog
 
+## [v1.0.1](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.1) (2020-02-01)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.0...v1.0.1)
+
+**Updates:**
+
+- Reimplement Bootstrap for Fast Syncing [\#4](https://github.com/RyanHendricks/docker-cosmos/pull/4)
+
 ## [v1.0.0](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.0) (2020-01-05)
 
-[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/76772c9fbef7533b2a15752f2a4e541611e5c505...v1.0.0)
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.0-rc1...v1.0.0)
 
 **Updates:**
 
 - Merging changes and supervisor addition [\#3](https://github.com/RyanHendricks/docker-cosmos/pull/3)
+
+## [v1.0.0-rc1](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.0-rc1) (2019-04-30)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/76772c9fbef7533b2a15752f2a4e541611e5c505...v1.0.0-rc1)
+
+**Updates:**
+
 - Merging from develop [\#2](https://github.com/RyanHendricks/docker-cosmos/pull/2)
 
 **Merged pull requests:**
