@@ -1,20 +1,17 @@
 # Changelog
 
-## [Unreleased](https://github.com/RyanHendricks/docker-terra/tree/HEAD)
+## [v1.0.0](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.0) (2020-01-05)
 
-[Full Changelog](https://github.com/RyanHendricks/docker-terra/compare/v1.0.0...HEAD)
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/76772c9fbef7533b2a15752f2a4e541611e5c505...v1.0.0)
 
 **Updates:**
 
-- v1.0.0 [\#1](https://github.com/RyanHendricks/docker-terra/pull/1)
+- Merging changes and supervisor addition [\#3](https://github.com/RyanHendricks/docker-cosmos/pull/3)
+- Merging from develop [\#2](https://github.com/RyanHendricks/docker-cosmos/pull/2)
 
-## [v1.0.0](https://github.com/RyanHendricks/docker-terra/tree/v1.0.0) (2020-01-31)
+**Merged pull requests:**
 
-[Full Changelog](https://github.com/RyanHendricks/docker-terra/compare/columbus-3...v1.0.0)
-
-## [columbus-3](https://github.com/RyanHendricks/docker-terra/tree/columbus-3) (2019-12-26)
-
-[Full Changelog](https://github.com/RyanHendricks/docker-terra/compare/4b6fe50a03427f59961d1c224608c741271f2fd2...columbus-3)
+- Upgrade cosmos-sdk to v0.34.3 and alter config to use cosmoshub-2 [\#1](https://github.com/RyanHendricks/docker-cosmos/pull/1)
 
 
 
