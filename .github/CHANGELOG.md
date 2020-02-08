@@ -10,7 +10,23 @@
 
 ## [v1.0.0](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.0) (2020-01-05)
 
-[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.0-rc1...v1.0.0)
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.0-rc2...v1.0.0)
+
+## [v1.0.0-rc2](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.0-rc2) (2019-12-20)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v0.34.7...v1.0.0-rc2)
+
+## [v0.34.7](https://github.com/RyanHendricks/docker-cosmos/tree/v0.34.7) (2019-06-20)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v0.34.6...v0.34.7)
+
+## [v0.34.6](https://github.com/RyanHendricks/docker-cosmos/tree/v0.34.6) (2019-05-31)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v0.34.5...v0.34.6)
+
+## [v0.34.5](https://github.com/RyanHendricks/docker-cosmos/tree/v0.34.5) (2019-05-25)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.0-rc1...v0.34.5)
 
 **Updates:**
 
