@@ -45,7 +45,7 @@ docker  run --rm -it -P --env SEEDS='067041dc191225c016749d43b0c51964e74aded4@35
 # EXAMPLES
 
 MONIKER=nonamenode
-CHAIN_ID=cosmoshub-2
+CHAIN_ID=cosmoshub-3
 GENESIS_URL=https://raw.githubusercontent.com/cosmos/launch/master/genesis.json
 BOOTSTRAP=TRUE
 SEEDS=
