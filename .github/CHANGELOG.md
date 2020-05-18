@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/RyanHendricks/docker-cosmos/tree/HEAD)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.1...HEAD)
+
+**Closed issues:**
+
+- Why not suitable for Validator? [\#5](https://github.com/RyanHendricks/docker-cosmos/issues/5)
+
 ## [v1.0.1](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.1) (2020-02-01)
 
 [Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.0...v1.0.1)
