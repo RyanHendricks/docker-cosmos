@@ -30,4 +30,4 @@
 
 - Ask any question about how to use this repo by opening an issue with a question tag
 
-Thanks! :heart: :heart: :heart:
+Thanks! :sailboat: :desert_island: :yin_yang:
