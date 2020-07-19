@@ -129,7 +129,7 @@ curl -X GET \
 
 ## NOTES
 
-- The current SEEDS (nodes I am running and supplying here since the ones from cosmos/launch repo all are not working as of this update) may not be around forever so consider overriding the defaults. If the badges above have do not have block numbers for either chain that means the seed nodes are no longer with us.
+- The current SEEDS may not be around forever so consider overriding the defaults.
 - You probably should not run a validator with this setup.
 
 ## Contributing
