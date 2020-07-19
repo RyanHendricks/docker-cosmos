@@ -1,7 +1,7 @@
-FROM golang:1.13-alpine AS buildenv
+FROM golang:1.14-alpine AS buildenv
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
-ENV VERSION v2.0.8
+ENV VERSION v2.0.11
 
 # Set up dependencies
 RUN apk add --update --no-cache $PACKAGES
@@ -16,8 +16,7 @@ WORKDIR /go/src/github.com/cosmos/gaia
 RUN git checkout $VERSION
 
 # Install minimum necessary dependencies, build Cosmos SDK, remove packages
-RUN make tools && \
-  make install
+RUN make install
 
 # ------------------------------------------------------------------ #
 
