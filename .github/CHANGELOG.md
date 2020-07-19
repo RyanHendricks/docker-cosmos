@@ -1,12 +1,16 @@
 # Changelog
 
-## [Unreleased](https://github.com/RyanHendricks/docker-cosmos/tree/HEAD)
+## [v1.0.2](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.2) (2020-07-19)
 
-[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.1...HEAD)
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v1.0.1...v1.0.2)
 
 **Closed issues:**
 
 - Why not suitable for Validator? [\#5](https://github.com/RyanHendricks/docker-cosmos/issues/5)
+
+**Merged pull requests:**
+
+- Update gaia version [\#6](https://github.com/RyanHendricks/docker-cosmos/pull/6)
 
 ## [v1.0.1](https://github.com/RyanHendricks/docker-cosmos/tree/v1.0.1) (2020-02-01)
 
