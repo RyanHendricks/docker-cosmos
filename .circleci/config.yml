@@ -3,7 +3,7 @@ jobs:
   build:
     environment:
       IMAGE_NAME: ryanhendricks/docker-cosmos
-      VERSION: v2.0.11
+      VERSION: v4.0.3
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -23,7 +23,7 @@ jobs:
   build-testnet:
     environment:
       IMAGE_NAME: ryanhendricks/docker-cosmos
-      VERSION: v2.0.11
+      VERSION: v4.0.3
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:

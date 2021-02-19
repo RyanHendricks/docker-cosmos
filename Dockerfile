@@ -1,7 +1,7 @@
-FROM golang:1.14-alpine AS buildenv
+FROM golang:1.15-alpine AS buildenv
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
-ENV VERSION v2.0.11
+ENV VERSION v4.0.3
 
 # Set up dependencies
 RUN apk add --update --no-cache $PACKAGES
@@ -25,16 +25,14 @@ FROM alpine:edge
 ENV GAIAD_HOME=/.gaiad
 
 # Install ca-certificates
-RUN apk add --no-cache --update ca-certificates supervisor wget lz4
+RUN apk add --no-cache --update ca-certificates py3-setuptools supervisor wget lz4 gzip
 
 # Temp directory for copying binaries
 RUN mkdir -p /tmp/bin
 WORKDIR /tmp/bin
 
 COPY --from=buildenv /go/bin/gaiad /tmp/bin
-COPY --from=buildenv /go/bin/gaiacli /tmp/bin
 RUN install -m 0755 -o root -g root -t /usr/local/bin gaiad
-RUN install -m 0755 -o root -g root -t /usr/local/bin gaiacli
 
 # Remove temp files
 RUN rm -r /tmp/bin

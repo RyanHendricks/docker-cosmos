@@ -3,32 +3,39 @@ version: '3'
 services:
   cosmos-testnet:
     container_name: cosmos-testnet
-    build:
-      context: .
-      dockerfile: Dockerfile-testnet
+    image: docker-cosmos:testnet-latest
     environment: 
       - MONIKER=NodeName
-      - CHAIN_ID=gaia-13007
-      - GENESIS_URL=https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/13007/genesis.json
-      - SEEDS=444d209bd0f89d7bf18cf389a74872e7082b237e@44.230.205.153:26656, 30e46db6f9e6f5f19d1c08785faec03616024759@51.68.102.106:26656, 055a315b20c847813535d7c2b4cedba5756e3d79@207.180.204.112:26656, 30e46db6f9e6f5f19d1c08785faec03616024759@51.68.102.106:26656
-      - CACHE_SIZE=50000
-      - GRPC_MAX_OPEN_CONNECTIONS=2100
-      - MAX_OPEN_CONNECTIONS=0
+      - CHAIN_ID=stargate-final
+      - GENESIS_URL=https://raw.githubusercontent.com/cosmos/stargate-launch/master/genesis.json
       - GAIAD_HOME=/.gaiad
-      - MAX_SUBSCRIPTION_PER_CLIENT=25
-      # - ADDR_BOOK_STRICT=false
-      # - LCD_PORT=3317
-      # - RPC_LADDR_PORT=36657
-      # - CONNECTIONS_LADDR_PORT=36656
-      # - PROXY_APP_PORT=36658
-      # - BOOTSTRAP=FALSE
     restart: always
     ports:
       - "26656:26656"
       - "26657:26657"
       - "26658:26658"
+      - "26660:26660"
       - "1317:1317" # for rest-server
     volumes:
       - cosmos-testnet-data:/.gaiad
+  prometheus:
+    container_name: prometheus
+    image: ryanhendricks/docker-prometheus:latest
+    environment: 
+      - PROMETHEUS_L_ADDR=0.0.0.0
+      - PROMETHEUS_PORT=9090
+      - JOBNAME="cosmos-testnet"
+      - TARGET_HOST=cosmos-testnet
+      - TARGET_PORT=26660
+      - INSTANCE="cosmos-testnet"
+    restart: always
+    ports:
+      - "9090:9090"
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
 volumes:
   cosmos-testnet-data:
