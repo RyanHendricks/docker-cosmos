@@ -3,7 +3,7 @@ jobs:
   build:
     environment:
       IMAGE_NAME: ryanhendricks/docker-cosmos
-      VERSION: v4.0.3
+      VERSION: v4.0.4
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -20,35 +20,11 @@ jobs:
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $IMAGE_NAME:latest && docker push $IMAGE_NAME:$VERSION
-  build-testnet:
-    environment:
-      IMAGE_NAME: ryanhendricks/docker-cosmos
-      VERSION: v4.0.3
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build Docker image
-          command: docker build -t $IMAGE_NAME:testnet . -f ./Dockerfile-testnet
-      - run:
-          name: tag image
-          command: docker tag $IMAGE_NAME:testnet $IMAGE_NAME:testnet-$CIRCLE_SHA1
-      - run:
-          name: Publish Docker Image to Docker Hub
-          command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $IMAGE_NAME:testnet && docker push $IMAGE_NAME:testnet-$CIRCLE_SHA1
 workflows:
   version: 2
   build-master:
     jobs:
       - build:
-          filters:
-            branches:
-              only: master
-      - build-testnet:
           filters:
             branches:
               only: master
