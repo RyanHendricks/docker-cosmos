@@ -1,7 +1,7 @@
 FROM golang:1.15-alpine AS buildenv
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
-ENV VERSION v4.0.3
+ENV VERSION v4.0.4
 
 # Set up dependencies
 RUN apk add --update --no-cache $PACKAGES
@@ -45,7 +45,7 @@ COPY /supervisor/conf.d/* /etc/supervisor/conf.d/
 
 WORKDIR $GAIAD_HOME
 
-# Expose ports for gaiad and gaiacli rest-server
+# Expose ports
 EXPOSE 26656 26657 26658
 EXPOSE 1317
 
