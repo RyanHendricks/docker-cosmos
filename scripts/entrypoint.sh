@@ -1,33 +1,30 @@
 #!/bin/sh
 
-
 # exit script on any error
 set -e
 echo "setting up initial configurations"
 
-if [ ! -f "$GAIAD_HOME/config/config.toml" ];
-then
+if [ ! -f "$GAIAD_HOME/config/config.toml" ]; then
 
-  gaiad init ${MONIKER:-nonamenode} --home=${GAIAD_HOME:-/.gaiad} --chain-id=${CHAIN_ID:-cosmoshub-4}
+	gaiad init "${MONIKER:-nonamenode}" --home="${GAIAD_HOME:-/.gaiad}" --chain-id="${CHAIN_ID:-cosmoshub-4}"
 
-  cd $GAIAD_HOME/config
+	cd "$GAIAD_HOME/config"
 
-  rm genesis.json
-  rm genesis.cosmoshub-4.json
-  rm config.toml
-  rm app.toml
+	rm genesis.json
+	rm genesis.cosmoshub-4.json
+	rm config.toml
+	rm app.toml
 
-  if [ ! -z "$GENESIS_URL" ]; then
-      wget $GENESIS_URL
-  else
-      wget https://github.com/cosmos/mainnet/raw/master/genesis.cosmoshub-4.json.gz
-      gzip -d genesis.cosmoshub-4.json.gz
-      cp genesis.cosmoshub-4.json genesis.json
-      rm genesis.cosmoshub-4.json
-  fi
+	if [ ! -z "$GENESIS_URL" ]; then
+		wget "$GENESIS_URL"
+	else
+		wget https://github.com/cosmos/mainnet/raw/master/genesis.cosmoshub-4.json.gz
+		gzip -d genesis.cosmoshub-4.json.gz
+		cp genesis.cosmoshub-4.json genesis.json
+		rm genesis.cosmoshub-4.json
+	fi
 
-
-cat > config.toml << EOF
+	cat >config.toml <<EOF
 # This is a TOML config file.
 # For more information, see https://github.com/toml-lang/toml
 
@@ -398,10 +395,7 @@ namespace = "${INSTRUMENTATION_NAMESPACE:-tendermint}"
 
 EOF
 
-
-
-
-cat > app.toml << EOF
+	cat >app.toml <<EOF
 # This is a TOML config file.
 # For more information, see https://github.com/toml-lang/toml
 
@@ -557,19 +551,17 @@ snapshot-keep-recent = 2
 
 EOF
 
+	cd "$GAIAD_HOME"
 
-
-
-cd $GAIAD_HOME
-
-  if [ "$BOOTSTRAP" == "TRUE" ]; then
-      echo "Downloading data archive and bootstrapping node.. Thank you to @chainlayer.io for the public bootstraps"
-      echo "This may take quite some time..."
-      wget http://quicksync.chainlayer.io/cosmos/cosmoshub-3.20200415.0105.tar.lz4
-      lz4 -d -v --rm cosmoshub-3.20200415.0105.tar.lz4 | tar xf -
-  fi
+	# Bootstrapping
+	# Disabled for now
+	# if [ "$BOOTSTRAP" == "TRUE" ]; then
+	#     echo "Downloading data archive and bootstrapping node.. Thank you to @chainlayer.io for the public bootstraps"
+	#     echo "This may take quite some time..."
+	#     wget http://quicksync.chainlayer.io/cosmos/cosmoshub-3.20200415.0105.tar.lz4
+	#     lz4 -d -v --rm cosmoshub-3.20200415.0105.tar.lz4 | tar xf -
+	# fi
 
 fi
-
 
 exec supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf
