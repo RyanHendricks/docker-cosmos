@@ -62,18 +62,7 @@ PROXY_APP_PORT=36658
 
 You can set ENV variables either in a docker-compose file or in the docker run command if running the container directly. If left unchanged they will default to the standard value except for the following:
 
-- MONIKER
-  - defaults to "nonamenode"
-- CHAIN_ID
-  - defaults to cosmoshub-3
-- GENESIS_URL
-  - defaults to cosmoshub-3 github [genesis file url](https://raw.githubusercontent.com/cosmos/launch/master/genesis.json)
-
 ### Bootstrapping
-
-  <!-- **Not currently available for cosmoshub-3**
-
-  Will be reinstated once the chain surpasses 500K blocks. -->
 
   The entrypoint script allows for the node to be bootstrapped upon creation. This drastically reduces the time required to fully sync with the network. The start up time is increased relative to the amount of time it takes the host machine to download ~20GB of data and extract it into the data directory.
 
@@ -107,30 +96,13 @@ The image uses Supervisor to run both gaiad and gaiacli simultaneously at contai
 
 ### Gaiad
 
-After starting the container you can check the status here: [http://127.0.0.1:26657/status](http://127.0.0.1:26657/status).
+After starting the container you can check the status here: [http://0.0.0.0:26657/status](http://0.0.0.0:26657/status).
 
 or from the terminal
 
 ```bash
 curl -X GET \
   http://127.0.0.1:26657/status? \
-  -H 'cache-control: no-cache'
-```
-
-## Gaiacli Rest-Server
-
-Supervisor starts the rest-server with the following command:
-
-```bash
-gaiacli rest-server --trust-node --cors * --home $GAIAD_HOME --laddr tcp://0.0.0.0:1317
-
-```
-
-You can verify that the rest-server is running using the following example
-
-```bash
-curl -X GET \
-  http://127.0.0.1:1317/blocks/latest \
   -H 'cache-control: no-cache'
 ```
 
