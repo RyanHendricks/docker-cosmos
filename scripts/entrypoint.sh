@@ -13,7 +13,7 @@ then
   cd $GAIAD_HOME/config
 
   rm genesis.json
-  rm genesis.cosmoshub-4.json.gz
+  rm genesis.cosmoshub-4.json
   rm config.toml
   rm app.toml
 
@@ -23,7 +23,7 @@ then
       wget https://github.com/cosmos/mainnet/raw/master/genesis.cosmoshub-4.json.gz
       gzip -d genesis.cosmoshub-4.json.gz
       cp genesis.cosmoshub-4.json genesis.json
-      rm genesis.cosmoshub-4.json.gz
+      rm genesis.cosmoshub-4.json
   fi
 
 
@@ -42,15 +42,10 @@ cat > config.toml << EOF
 
 # TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
-proxy_app = "${PROXY_APP:-tcp://0.0.0.0}:${PROXY_APP_PORT:-26658}"
+proxy_app = "${PROXY_APP_LADDR:-tcp://0.0.0.0}:${PROXY_APP_PORT:-26658}"
 
 # A custom human readable name for this node
 moniker = "${MONIKER:-moniker}"
-
-# If this node is many blocks behind the tip of the chain, FastSync
-# allows them to catchup quickly by downloading blocks in parallel
-# and verifying their commits
-fast_sync = fast_sync = ${FAST_SYNC:-true}
 
 # If this node is many blocks behind the tip of the chain, FastSync
 # allows them to catchup quickly by downloading blocks in parallel
@@ -188,7 +183,8 @@ prof_laddr = "${PROF_LADDR:-localhost:6060}"
 [p2p]
 
 # Address to listen for incoming connections
-laddr = "tcp://0.0.0.0:26656"
+
+laddr = "${P2P_LADDR:-tcp://0.0.0.0}:${P2P_PORT:-26656}"
 
 # Address to advertise to peers for them to dial
 # If empty, will use the same port as the laddr,
@@ -515,7 +511,7 @@ enable = ${API:-false}
 swagger = ${SWAGGER:-false}
 
 # Address defines the API server to listen on.
-address = "${LCD_LISTEN_ADDR:-tcp://0.0.0.0}:${LCD_PORT:-1317}"
+address = "${API_LADDR:-tcp://0.0.0.0}:${API_PORT:-1317}"
 
 # MaxOpenConnections defines the number of maximum open connections.
 max-open-connections = 1000
