@@ -1,7 +1,7 @@
 FROM golang:1.15-alpine AS buildenv
 
 ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev
-ENV VERSION v4.0.4
+ENV VERSION v4.1.1
 
 # Set up dependencies
 RUN apk add --update --no-cache $PACKAGES
