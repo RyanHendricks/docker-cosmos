@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.2.0](https://github.com/RyanHendricks/docker-cosmos/tree/v4.2.0) (2021-03-31)
+
+[Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v4.1.1...v4.2.0)
+
 ## [v4.1.1](https://github.com/RyanHendricks/docker-cosmos/tree/v4.1.1) (2021-03-20)
 
 [Full Changelog](https://github.com/RyanHendricks/docker-cosmos/compare/v4.0.4...v4.1.1)
