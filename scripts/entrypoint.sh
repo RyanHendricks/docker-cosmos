@@ -1,28 +1,31 @@
-#!/bin/sh
+#! /bin/sh
 
 # exit script on any error
 set -e
-echo "setting up initial configurations"
 
-if [ ! -f "$GAIAD_HOME/config/config.toml" ]; then
+write_client_toml() {
+	cat >client.toml <<EOF
+# This is a TOML config file.
+# For more information, see https://github.com/toml-lang/toml
 
-	gaiad init "${MONIKER:-nonamenode}" --home="${GAIAD_HOME:-/.gaiad}" --chain-id="${CHAIN_ID:-cosmoshub-4}"
+###############################################################################
+###                           Client Configuration                            ###
+###############################################################################
 
-	cd "$GAIAD_HOME/config"
+# The network chain ID
+chain-id = "${CHAIN_ID:-}"
+# The keyring's backend, where the keys are stored (os|file|kwallet|pass|test|memory)
+keyring-backend = "${KEYRING_BACKEND:-os}"
+# CLI output format (text|json)
+output = "${CLI_OUTPUT_FORMAT:-text}"
+# <host>:<port> to Tendermint RPC interface for this chain
+node = "tcp://localhost:26657"
+# Transaction broadcasting mode (sync|async|block)
+broadcast-mode = "${BROADCAST_MODE:-sync}"
+EOF
+}
 
-	rm genesis.json
-	rm config.toml
-	rm app.toml
-
-	if [ ! -z "$GENESIS_URL" ]; then
-		wget "$GENESIS_URL"
-	else
-		wget https://github.com/cosmos/mainnet/raw/master/genesis.cosmoshub-4.json.gz
-		gzip -d genesis.cosmoshub-4.json.gz
-		cp genesis.cosmoshub-4.json genesis.json
-		rm genesis.cosmoshub-4.json
-	fi
-
+write_config_toml() {
 	cat >config.toml <<EOF
 # This is a TOML config file.
 # For more information, see https://github.com/toml-lang/toml
@@ -391,9 +394,10 @@ max_open_connections = ${MAX_OPEN_CONNECTIONS:-3}
 
 # Instrumentation namespace
 namespace = "${INSTRUMENTATION_NAMESPACE:-tendermint}"
-
 EOF
+}
 
+write_app_toml() {
 	cat >app.toml <<EOF
 # This is a TOML config file.
 # For more information, see https://github.com/toml-lang/toml
@@ -405,7 +409,7 @@ EOF
 # The minimum gas prices a validator is willing to accept for processing a
 # transaction. A transaction's fees must meet the minimum of any denomination
 # specified in this config (e.g. 0.25token1;0.0001token2).
-minimum-gas-prices = ""
+minimum-gas-prices = "${MINIMUM_GAS_PRICES:-}"
 
 # default: the last 100 states are kept in addition to every 500th state; pruning at 10 block intervals
 # nothing: all historic states will be saved, nothing will be deleted (i.e. archiving node)
@@ -414,22 +418,22 @@ minimum-gas-prices = ""
 pruning = "${PRUNING:-default}"
 
 # These are applied if and only if the pruning strategy is custom.
-pruning-keep-recent = "0"
-pruning-keep-every = "0"
-pruning-interval = "0"
+pruning-keep-recent = "${PRUNING_KEEP_RECENT:-0}"
+pruning-keep-every = "${PRUNING_KEEP_EVERY:-0}"
+pruning-interval = "${PRUNING_INTERVAL:-0}"
 
 # HaltHeight contains a non-zero block height at which a node will gracefully
 # halt and shutdown that can be used to assist upgrades and testing.
 #
 # Note: Commitment of state will be attempted on the corresponding block.
-halt-height = 0
+halt-height = ${HALT_HEIGHT:-0}
 
 # HaltTime contains a non-zero minimum block time (in Unix seconds) at which
 # a node will gracefully halt and shutdown that can be used to assist upgrades
 # and testing.
 #
 # Note: Commitment of state will be attempted on the corresponding block.
-halt-time = 0
+halt-time = ${HALT_TIME:-0}
 
 # MinRetainBlocks defines the minimum block height offset from the current
 # block being committed, such that all blocks past this offset are pruned
@@ -528,7 +532,7 @@ enabled-unsafe-cors = ${UNSAFE_CORS:-false}
 [grpc]
 
 # Enable defines if the gRPC server should be enabled.
-enable = ${GRPC_ENABLE:-false}
+enable = ${GRPC_ENABLE:-true}
 
 # Address defines the gRPC server address to bind to.
 address = "${GRPC_LADDR:-0.0.0.0:9090}"
@@ -549,18 +553,78 @@ snapshot-interval = 0
 snapshot-keep-recent = 2
 
 EOF
+}
 
-	cd "$GAIAD_HOME"
+compare_replace_config() {
+	TARGET_FILE=$1
+	TEMP_FILE=$2
 
-	# Bootstrapping
-	# Disabled for now
-	# if [ "$BOOTSTRAP" == "TRUE" ]; then
-	#     echo "Downloading data archive and bootstrapping node.. Thank you to @chainlayer.io for the public bootstraps"
-	#     echo "This may take quite some time..."
-	#     wget http://quicksync.chainlayer.io/cosmos/cosmoshub-3.20200415.0105.tar.lz4
-	#     lz4 -d -v --rm cosmoshub-3.20200415.0105.tar.lz4 | tar xf -
-	# fi
+	if [ ! -f "$TARGET_FILE" ]; then
+		echo "no existing file found, creating.."
+		mv "$TEMP_FILE" "$TARGET_FILE"
+	else
+		TARGET_FILE_HASH=$(sha256sum "$TARGET_FILE" | awk '{print $1}')
+		TEMP_FILE_HASH=$(sha256sum "$TEMP_FILE" | awk '{print $1}')
+		if [ "$TARGET_FILE_HASH" = "$TEMP_FILE_HASH" ]; then
+			echo "$TARGET_FILE is up-to-date -- $TARGET_FILE_HASH"
+			rm "$TEMP_FILE"
+		else
+			echo "changes detected, updating.."
+			rm "$TARGET_FILE"
+			mv "$TEMP_FILE" "$TARGET_FILE"
+		fi
+	fi
 
-fi
+}
 
+download_genesis() {
+	if [ -n "$GENESIS_URL" ]; then
+		wget "$GENESIS_URL"
+	else
+		wget https://github.com/cosmos/mainnet/raw/master/genesis.cosmoshub-4.json.gz
+		gzip -d genesis.cosmoshub-4.json.gz
+		cp genesis.cosmoshub-4.json genesis.json
+		rm genesis.cosmoshub-4.json
+	fi
+}
+
+initialize() {
+	NODE_DIR=$1
+	BINARY=$2
+
+	if [ $# != 2 ]; then
+		echo "expected 4 arguments for initialize"
+		exit 1
+	fi
+
+	if [ ! -f "$NODE_DIR/config/genesis.json" ]; then
+		echo "no existing genesis file found, initializing.."
+		$BINARY init "${MONIKER:-nonamenode}" --home="${NODE_DIR:-/.gaiad}" --chain-id="${CHAIN_ID:-cosmoshub-4}"
+		cd "${NODE_DIR}/config"
+		download_genesis
+	fi
+}
+
+update_config_files() {
+	CONFIG_DIR=$1
+	TEMP_DIR="${CONFIG_DIR}/temp"
+
+	mkdir -p "$TEMP_DIR" && cd "$TEMP_DIR"
+
+	write_app_toml
+	write_client_toml
+	write_config_toml
+
+	cd "$CONFIG_DIR"
+
+	compare_replace_config "${CONFIG_DIR}/app.toml" "${TEMP_DIR}/app.toml"
+	compare_replace_config "${CONFIG_DIR}/client.toml" "${TEMP_DIR}/client.toml"
+	compare_replace_config "${CONFIG_DIR}/config.toml" "${TEMP_DIR}/config.toml"
+
+	rm -rf "$TEMP_DIR"
+}
+
+initialize "${GAIAD_HOME:-/.gaiad}" gaiad
+update_config_files "${GAIAD_HOME:-/.gaiad}/config"
+cd "$GAIAD_HOME"
 exec supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf
