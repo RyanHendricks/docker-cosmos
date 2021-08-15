@@ -3,12 +3,15 @@ jobs:
   build:
     environment:
       IMAGE_NAME: ryanhendricks/docker-cosmos
-      VERSION: v4.2.1
+      VERSION: v5.0.5
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          # https://discuss.circleci.com/t/unable-to-use-make/40552/2 --> source for fix here.
+          version: 20.10.6
+          docker_layer_caching: false
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
