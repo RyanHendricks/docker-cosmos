@@ -4,9 +4,7 @@ Dockerized Cosmos Node with Optional Bootstrap for Fast Syncing
 
 ---
 
-[![CircleCI (all branches)](https://img.shields.io/circleci/project/github/RyanHendricks/docker-cosmos.svg?label=build&logo=circleci&logoColor=white)](https://circleci.com/gh/RyanHendricks/docker-cosmos)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ryanhendricks/docker-cosmos.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/ryanhendricks/docker-cosmos)
-
 
 [![Codacy grade](https://img.shields.io/codacy/grade/bc9dcdd26c7a45d597db9fc4b372db23.svg?logo=codacy)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RyanHendricks/docker-cosmos&amp;utm_campaign=Badge_Grade)
 
@@ -23,10 +21,7 @@ The image can be run without any configuration and defaults to mainnet
 
 ```bash
 
-export SEEDS=ba3bacc714817218562f743178228f23678b2873@5.83.160.108:26656,1e63e84945837b026f596ed8ae68708783d04ad4@51.75.145.123:26656,d2d452e7c9c43fa5ef017552688de60a5c0053ee@34.245.217.163:26656,dd36969b56c740bb40bb8badd4d4c6facc35dc24@206.189.115.41:26656,a0aca8fb801c69653a290bd44872e8457f8b0982@47.99.180.54:26656,27f8dd3bdbecbef7192291083706c156e523d8e0@3.122.248.21:26656,aee0df1a660f301d456a0c2f805b372f7341e8ec@63.35.230.143:26656,7d1f660b361d6286715c098a3a171e554e9642bb@34.254.205.37:26656,fa105c2291ac4aa452552fa4835266300a8209e1@88.198.41.62:26656,bd410d4564f7e0dd9a0eb16a64c337a059e11b80@47.103.35.130:26656
-
-docker  run --rm -it -P --env SEEDS='$SEEDS' ryanhendricks/docker-cosmos:latest
-# Feel free to use an alternate seeds although without one the node will have issues starting
+docker  run --rm -it -P ryanhendricks/docker-cosmos:latest
 
 ```
 
@@ -46,14 +41,13 @@ docker  run --rm -it -P --env SEEDS='$SEEDS' ryanhendricks/docker-cosmos:latest
 
 MONIKER=nonamenode
 CHAIN_ID=cosmoshub-4
-SEEDS=$SEEDS
 PROMETHEUS=true
-PROMETHEUS_LISTEN_ADDR=36660
+PROMETHEUS_LISTEN_ADDR=26660
 MAX_OPEN_CONNECTIONS=10
-LCD_PORT=3317
-RPC_PORT=36657
-P2P_PORT=36656
-PROXY_APP_PORT=36658
+LCD_PORT=1317
+RPC_PORT=26657
+P2P_PORT=26656
+PROXY_APP_PORT=26658
 
 ```
 
@@ -105,7 +99,6 @@ curl -X GET \
 
 ## NOTES
 
-- The current SEEDS may not be around forever so consider overriding the defaults.
 - You probably should not run a validator with this setup.
 
 ## Contributing

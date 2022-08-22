@@ -146,6 +146,33 @@ max_subscription_clients = ${MAX_SUBSCRIPTION_CLIENTS:-100}
 # the estimated # maximum number of broadcast_tx_commit calls per block.
 max_subscriptions_per_client = ${MAX_SUBSCRIPTION_PER_CLIENT:-5}
 
+# Experimental parameter to specify the maximum number of events a node will
+# buffer, per subscription, before returning an error and closing the
+# subscription. Must be set to at least 100, but higher values will accommodate
+# higher event throughput rates (and will use more memory).
+experimental_subscription_buffer_size = 200
+
+# Experimental parameter to specify the maximum number of RPC responses that
+# can be buffered per WebSocket client. If clients cannot read from the
+# WebSocket endpoint fast enough, they will be disconnected, so increasing this
+# parameter may reduce the chances of them being disconnected (but will cause
+# the node to use more memory).
+#
+# Must be at least the same as "experimental_subscription_buffer_size",
+# otherwise connections could be dropped unnecessarily. This value should
+# ideally be somewhat higher than "experimental_subscription_buffer_size" to
+# accommodate non-subscription-related RPC responses.
+experimental_websocket_write_buffer_size = 200
+
+# If a WebSocket client cannot read fast enough, at present we may
+# silently drop events instead of generating an error or disconnecting the
+# client.
+#
+# Enabling this experimental parameter will cause the WebSocket connection to
+# be closed instead if it cannot read fast enough, allowing for greater
+# predictability in subscription behaviour.
+experimental_close_on_slow_client = false
+
 # How long to wait for a tx to be committed during /broadcast_tx_commit.
 # WARNING: Using a value larger than 10s will result in increasing the
 # global HTTP write timeout, which applies to all connections and endpoints.
@@ -275,7 +302,6 @@ cache_size = ${CACHE_SIZE:-10000}
 # again in the future.
 keep-invalid-txs-in-cache = false
 
-
 # Maximum size of a single transaction.
 # NOTE: the max size of a tx transmitted over the network is {max_tx_bytes}.
 max_tx_bytes = ${MAX_TX_BYTES:-1048576}
@@ -313,6 +339,13 @@ discovery_time = "15s"
 # Temporary directory for state sync snapshot chunks, defaults to the OS tempdir (typically /tmp).
 # Will create a new, randomly named directory within, and remove it when done.
 temp_dir = ""
+
+# The timeout duration before re-requesting a chunk, possibly from a different
+# peer (default: 1 minute).
+chunk_request_timeout = "10s"
+
+# The number of concurrent chunk fetchers to run (default: 1).
+chunk_fetchers = "4"
 
 #######################################################
 ###       Fast Sync Configuration Connections       ###
@@ -413,7 +446,7 @@ minimum-gas-prices = "${MINIMUM_GAS_PRICES:-}"
 
 # default: the last 100 states are kept in addition to every 500th state; pruning at 10 block intervals
 # nothing: all historic states will be saved, nothing will be deleted (i.e. archiving node)
-# everything: all saved states will be deleted, storing only the current state; pruning at 10 block intervals
+# everything: all saved states will be deleted, storing only the current and previous state; pruning at 10 block intervals
 # custom: allow pruning options to be manually specified through 'pruning-keep-recent', 'pruning-keep-every', and 'pruning-interval'
 pruning = "${PRUNING:-default}"
 
@@ -460,6 +493,10 @@ inter-block-cache = true
 # Example:
 # ["message.sender", "message.recipient"]
 index-events = [${INDEX_TAGS:-}]
+
+# IavlCacheSize set the size of the iavl tree cache. 
+# Default cache size is 50mb.
+iavl-cache-size = 781250
 
 ###############################################################################
 ###                         Telemetry Configuration                         ###
@@ -526,6 +563,30 @@ rpc-max-body-bytes = 1000000
 enabled-unsafe-cors = ${UNSAFE_CORS:-false}
 
 ###############################################################################
+###                           Rosetta Configuration                         ###
+###############################################################################
+
+[rosetta]
+
+# Enable defines if the Rosetta API server should be enabled.
+enable = false
+
+# Address defines the Rosetta API server to listen on.
+address = ":8080"
+
+# Network defines the name of the blockchain that will be returned by Rosetta.
+blockchain = "app"
+
+# Network defines the name of the network that will be returned by Rosetta.
+network = "network"
+
+# Retries defines the number of retries when connecting to the node before failing.
+retries = 3
+
+# Offline defines if Rosetta server should run in offline mode.
+offline = false
+
+###############################################################################
 ###                           gRPC Configuration                            ###
 ###############################################################################
 
@@ -536,6 +597,22 @@ enable = ${GRPC_ENABLE:-true}
 
 # Address defines the gRPC server address to bind to.
 address = "${GRPC_LADDR:-0.0.0.0:9090}"
+
+###############################################################################
+###                        gRPC Web Configuration                           ###
+###############################################################################
+
+[grpc-web]
+
+# GRPCWebEnable defines if the gRPC-web should be enabled.
+# NOTE: gRPC must also be enabled, otherwise, this configuration is a no-op.
+enable = true
+
+# Address defines the gRPC-web server address to bind to.
+address = "0.0.0.0:9091"
+
+# EnableUnsafeCORS defines if CORS should be enabled (unsafe - use it at your own risk).
+enable-unsafe-cors = false
 
 ###############################################################################
 ###                        State Sync Configuration                         ###
@@ -551,6 +628,16 @@ snapshot-interval = 0
 
 # snapshot-keep-recent specifies the number of recent snapshots to keep and serve (0 to keep all).
 snapshot-keep-recent = 2
+###############################################################################
+###                        Custom Gaia Configuration                        ###
+###############################################################################
+# bypass-min-fee-msg-types defines custom message types the operator may set that
+# will bypass minimum fee checks during CheckTx.
+#
+# Example:
+# ["/ibc.core.channel.v1.MsgRecvPacket", "/ibc.core.channel.v1.MsgAcknowledgement", ...]
+bypass-min-fee-msg-types = ["/ibc.core.channel.v1.MsgRecvPacket", "/ibc.core.channel.v1.MsgAcknowledgement", "/ibc.core.client.v1.MsgUpdateClient", ]
+
 
 EOF
 }
