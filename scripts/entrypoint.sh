@@ -668,7 +668,7 @@ download_genesis() {
 	if [ -n "$GENESIS_URL" ]; then
 		wget "$GENESIS_URL"
 	else
-		wget https://github.com/cosmos/mainnet/raw/master/genesis.cosmoshub-4.json.gz
+		wget https://github.com/cosmos/mainnet/raw/master/genesis/genesis.cosmoshub-4.json.gz
 		gzip -d genesis.cosmoshub-4.json.gz
 		cp genesis.cosmoshub-4.json genesis.json
 		rm genesis.cosmoshub-4.json
